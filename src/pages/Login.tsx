@@ -11,16 +11,17 @@ const Login = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  
+  const isOcCorner = searchParams.get("role") === "oc";
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    appointment: searchParams.get("role") === "oc" ? "OC" : ""
+    appointment: isOcCorner ? "OC" : ""
   });
 
   const appointments = [
     "Commander",
-    "Deputy Commander", 
+    "Deputy Commander",
     "DS Coord",
     "HoAT",
     "CCO",
@@ -30,7 +31,7 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.username || !formData.password || !formData.appointment) {
       toast({
         title: "Error",
@@ -45,7 +46,7 @@ const Login = () => {
       title: "Login Successful",
       description: `Welcome, ${formData.appointment}!`
     });
-    
+
     navigate("/dashboard");
   };
 
@@ -53,9 +54,9 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
       {/* Background Logo */}
       <div className="absolute inset-0 opacity-5">
-        <img 
+        <img
           src="https://facultytick.com/wp-content/uploads/2022/03/Military-College-Of-Electronics-Mechanical-Engineering.jpg"
-          alt="MCEME Background" 
+          alt="MCEME Background"
           className="w-full h-full object-contain"
         />
       </div>
@@ -63,97 +64,106 @@ const Login = () => {
       <div className="w-full max-w-md relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <img 
+          <img
             src="https://facultytick.com/wp-content/uploads/2022/03/Military-College-Of-Electronics-Mechanical-Engineering.jpg"
-            alt="MCEME Logo" 
+            alt="MCEME Logo"
             className="h-16 w-auto mx-auto mb-4"
           />
           <h1 className="text-2xl font-bold text-primary-foreground">MCEME CTW Portal</h1>
           <p className="text-primary-foreground/80">Sign in to access your account</p>
         </div>
 
-        <Card className="shadow-command">
-          <CardHeader>
-            <CardTitle className="text-center text-primary">
-              Sign in to MCEME CTW Portal
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
-                  placeholder="Enter your username"
-                  required
-                />
-              </div>
+        {isOcCorner ? (
+          <div className="flex items-center justify-center h-64 bg-muted rounded-lg shadow-lg">
+            <h2 className="text-4xl font-extrabold text-primary text-center">
+              🚧 Coming Soon 🚧
+            </h2>
+          </div>
+        ) : (
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  placeholder="Enter your password"
-                  required
-                />
-              </div>
+        < Card className="shadow-command">
+        <CardHeader>
+          <CardTitle className="text-center text-primary">
+            Sign in to MCEME CTW Portal
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                type="text"
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                placeholder="Enter your username"
+                required
+              />
+            </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="appointment">Appointment</Label>
-                <Select 
-                  value={formData.appointment} 
-                  onValueChange={(value) => setFormData({...formData, appointment: value})}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your appointment" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {appointments.map((appointment) => (
-                      <SelectItem key={appointment} value={appointment}>
-                        {appointment}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
 
-              <Button type="submit" className="w-full" variant="hero">
-                Sign In
+            <div className="space-y-2">
+              <Label htmlFor="appointment">Appointment</Label>
+              <Select
+                value={formData.appointment}
+                onValueChange={(value) => setFormData({ ...formData, appointment: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select your appointment" />
+                </SelectTrigger>
+                <SelectContent>
+                  {appointments.map((appointment) => (
+                    <SelectItem key={appointment} value={appointment}>
+                      {appointment}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Button type="submit" className="w-full" variant="hero">
+              Sign In
+            </Button>
+          </form>
+
+          <div className="mt-6 space-y-3">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button asChild variant="outline" className="flex-1">
+                <Link to="/signup">Create New Account</Link>
               </Button>
-            </form>
-
-            <div className="mt-6 space-y-3">
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button asChild variant="outline" className="flex-1">
-                  <Link to="/signup">Create New Account</Link>
-                </Button>
-                <Button asChild variant="ghost" className="flex-1">
-                  <Link to="/reset-password">Forgot Password?</Link>
-                </Button>
-              </div>
+              <Button asChild variant="ghost" className="flex-1">
+                <Link to="/reset-password">Forgot Password?</Link>
+              </Button>
             </div>
+          </div>
 
-            <div className="mt-6 p-3 bg-muted rounded-md">
-              <p className="text-xs text-muted-foreground text-center">
-                Internal use only. 'Students' are referred to as Officer Cadets (OCs).
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="mt-6 p-3 bg-muted rounded-md">
+            <p className="text-xs text-muted-foreground text-center">
+              Internal use only. 'Students' are referred to as Officer Cadets (OCs).
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+      )}
 
-        <div className="text-center mt-6">
-          <Button asChild variant="link" className="text-primary-foreground">
-            <Link to="/">← Back to Home</Link>
-          </Button>
-        </div>
+      <div className="text-center mt-6">
+        <Button asChild variant="link" className="text-primary-foreground">
+          <Link to="/">← Back to Home</Link>
+        </Button>
       </div>
     </div>
+    </div >
   );
 };
 

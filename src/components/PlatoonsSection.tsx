@@ -68,8 +68,8 @@ const PlatoonsSection = () => {
                     <span>Active Platoon</span>
                   </div>
                   <Button variant="ghost" size="sm" asChild>
-                    <a href="#commanders-corner">
-                      Commander's Corner →
+                    <a href="">
+                      More →
                     </a>
                   </Button>
                 </div>

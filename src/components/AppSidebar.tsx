@@ -97,8 +97,8 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const isGroupActive = (items: any[]) => items.some(item => isActive(item.url));
 
-  const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-accent/50";
+  // const getNavCls = ({ isActive }: { isActive: boolean }) =>
+  //   isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-accent/50";
 
   const toggleGroup = (groupName: string) => {
     setOpenGroups(prev => 
@@ -170,7 +170,7 @@ export function AppSidebar() {
                         {section.items.map((item) => (
                           <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton asChild>
-                              <NavLink to={item.url} className={getNavCls}>
+                              <NavLink to={item.url} >
                                 <item.icon className="h-4 w-4" />
                                 {!collapsed && (
                                   <div className="flex items-center justify-between w-full">
@@ -202,7 +202,7 @@ export function AppSidebar() {
                       {section.items.map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <NavLink to={item.url} className={getNavCls}>
+                            <NavLink to={item.url} >
                               <item.icon className="h-4 w-4" />
                               {!collapsed && (
                                 <div className="flex items-center justify-between w-full">
@@ -231,7 +231,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <NavLink to="/dashboard/help" className={getNavCls}>
+                <NavLink to="/dashboard/help" >
                   <HelpCircle className="h-4 w-4" />
                   {!collapsed && <span>Help / How-To</span>}
                 </NavLink>
