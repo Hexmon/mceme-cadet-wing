@@ -11,6 +11,59 @@ const Landing = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <Hero />
+      <PlatoonsSection />
+      {/* Commander's Corner */}
+      <section id="commanders-corner" className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+              Commander's Corner
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Messages and insights from current and former commanders
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Brig Atul Jaiswal",
+                rank: "Commander, CTW",
+                tenure: "Present",
+                note: "Leading with excellence and dedication to shape future military leaders through innovative training methodologies."
+              },
+              {
+                name: "Brig Rajesh Kumar",
+                rank: "Former Commander, CTW", 
+                tenure: "2020-2023",
+                note: "Instrumental in modernizing training infrastructure and implementing digital learning platforms."
+              },
+              {
+                name: "Brig Suresh Sharma",
+                rank: "Former Commander, CTW",
+                tenure: "2017-2020", 
+                note: "Pioneered advanced field training exercises and inter-service cooperation programs."
+              }
+            ].map((commander, index) => (
+              <Card key={index} className="group hover:shadow-command transition-all duration-300">
+                <CardHeader className="text-center pb-3">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-hover rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <Users2 className="h-10 w-10 text-primary-foreground" />
+                  </div>
+                  <CardTitle className="text-lg">{commander.name}</CardTitle>
+                  <p className="text-sm text-primary font-medium">{commander.rank}</p>
+                  <p className="text-xs text-muted-foreground">{commander.tenure}</p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground text-center leading-relaxed">
+                    {commander.note}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
       <GallantryAwards />
       
       {/* History Section */}
@@ -97,67 +150,13 @@ const Landing = () => {
           </div>
         </div>
       </section>
-
-      <PlatoonsSection />
       
-      {/* Commander's Corner */}
-      <section id="commanders-corner" className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
-              Commander's Corner
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Messages and insights from current and former commanders
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Brig Atul Jaiswal",
-                rank: "Commander, CTW",
-                tenure: "Present",
-                note: "Leading with excellence and dedication to shape future military leaders through innovative training methodologies."
-              },
-              {
-                name: "Brig Rajesh Kumar",
-                rank: "Former Commander, CTW", 
-                tenure: "2020-2023",
-                note: "Instrumental in modernizing training infrastructure and implementing digital learning platforms."
-              },
-              {
-                name: "Brig Suresh Sharma",
-                rank: "Former Commander, CTW",
-                tenure: "2017-2020", 
-                note: "Pioneered advanced field training exercises and inter-service cooperation programs."
-              }
-            ].map((commander, index) => (
-              <Card key={index} className="group hover:shadow-command transition-all duration-300">
-                <CardHeader className="text-center pb-3">
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-hover rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <Users2 className="h-10 w-10 text-primary-foreground" />
-                  </div>
-                  <CardTitle className="text-lg">{commander.name}</CardTitle>
-                  <p className="text-sm text-primary font-medium">{commander.rank}</p>
-                  <p className="text-xs text-muted-foreground">{commander.tenure}</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground text-center leading-relaxed">
-                    {commander.note}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="bg-primary text-primary-foreground py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm">
-            For official MCEME internal use only. © 2024 Military College of Electronics & Mechanical Engineering
+            For official MCEME internal use only. © 2025 Military College of Electronics & Mechanical Engineering
           </p>
         </div>
       </footer>
