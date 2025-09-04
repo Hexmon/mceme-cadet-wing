@@ -90,7 +90,7 @@ const Landing = () => {
       <EventsNews />
       
       {/* Schedules Section */}
-      <section id="schedules" className="py-16 bg-muted/30">
+      {/* <section id="schedules" className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
@@ -102,14 +102,7 @@ const Landing = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              { day: "Monday", activity: "Physical Training & Parade", time: "0600-0800", type: "PT" },
-              { day: "Tuesday", activity: "Electronics Theory", time: "0900-1200", type: "Academic" },
-              { day: "Wednesday", activity: "Mechanical Workshop", time: "1400-1700", type: "Practical" },
-              { day: "Thursday", activity: "Field Training Exercise", time: "0800-1600", type: "Field" },
-              { day: "Friday", activity: "Assessment & Review", time: "0900-1200", type: "Assessment" },
-              { day: "Saturday", activity: "Sports & Recreation", time: "1500-1800", type: "Sports" }
-            ].map((schedule, index) => (
+            {scheduledata.map((schedule, index) => (
               <Card key={index} className="hover:shadow-elegant transition-all duration-300">
                 <CardHeader className="pb-3">
                   <CardTitle className="flex items-center gap-2 text-lg">
@@ -131,7 +124,7 @@ const Landing = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
       
 
       {/* Footer */}
