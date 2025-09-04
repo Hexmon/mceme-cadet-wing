@@ -101,3 +101,71 @@ export const historydata = [
     { year: "2000", event: "Digital transformation and modern training methodologies implementation" },
     { year: "2020", event: "Integration of AI and advanced technology in military training" }
 ]
+
+export const scheduledata = [
+    { day: "Monday", activity: "Physical Training & Parade", time: "0600-0800", type: "PT" },
+    { day: "Tuesday", activity: "Electronics Theory", time: "0900-1200", type: "Academic" },
+    { day: "Wednesday", activity: "Mechanical Workshop", time: "1400-1700", type: "Practical" },
+    { day: "Thursday", activity: "Field Training Exercise", time: "0800-1600", type: "Field" },
+    { day: "Friday", activity: "Assessment & Review", time: "0900-1200", type: "Assessment" },
+    { day: "Saturday", activity: "Sports & Recreation", time: "1500-1800", type: "Sports" }
+]
+
+export const events = [
+  {
+    date: "2024-12-15",
+    title: "Annual Passing Out Parade",
+    description: "Graduation ceremony for the current batch of Officer Cadets",
+    location: "Main Parade Ground",
+    type: "ceremony"
+  },
+  {
+    date: "2024-12-10", 
+    title: "Inter-Platoon Sports Competition",
+    description: "Annual sports competition between all six platoons",
+    location: "Sports Complex",
+    type: "sports"
+  },
+  {
+    date: "2024-12-08",
+    title: "Technical Symposium on Modern Warfare",
+    description: "Expert lectures on electronic warfare and modern military technology",
+    location: "Auditorium",
+    type: "academic"
+  },
+  {
+    date: "2024-12-05",
+    title: "Field Training Exercise - Phase II",
+    description: "Advanced tactical training in field conditions",
+    location: "Training Area Alpha",
+    type: "training"
+  },
+  {
+    date: "2024-12-01",
+    title: "Commandant's Inspection",
+    description: "Quarterly inspection and review of cadet progress",
+    location: "All Areas",
+    type: "inspection"
+  },
+  {
+    date: "2024-11-28",
+    title: "Alumni Guest Lecture Series",
+    description: "Distinguished alumni sharing experiences and insights",
+    location: "Conference Hall",
+    type: "academic"
+  },
+  {
+    date: "2024-11-25",
+    title: "Equipment Maintenance Workshop",
+    description: "Hands-on training for electronic and mechanical systems",
+    location: "Workshop Complex",
+    type: "training"
+  },
+  {
+    date: "2024-11-20",
+    title: "Cultural Evening - Mess Night",
+    description: "Traditional military mess night with cultural performances",
+    location: "Officers' Mess",
+    type: "cultural"
+  }
+]
