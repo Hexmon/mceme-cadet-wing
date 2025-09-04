@@ -6,6 +6,7 @@ import EventsNews from "@/components/EventsNews";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, History, Users2 } from "lucide-react";
 import { CommandersData, historydata } from "@/config/app.config";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
@@ -27,6 +28,11 @@ const Landing = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {CommandersData.map((commander, index) => (
+              <Link
+                key={index}
+                to={`/commander/${index}`} // Dynamic URL based on index or ID
+                className="group hover:shadow-command transition-all duration-300"
+              >
               <Card key={index} className="group hover:shadow-command transition-all duration-300">
                 <CardHeader className="text-center pb-3">
                   <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-hover rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -42,6 +48,7 @@ const Landing = () => {
                   </p>
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
         </div>
