@@ -5,6 +5,7 @@ import PlatoonsSection from "@/components/PlatoonsSection";
 import EventsNews from "@/components/EventsNews";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, History, Users2 } from "lucide-react";
+import { CommandersData, historydata } from "@/config/app.config";
 
 const Landing = () => {
   return (
@@ -25,26 +26,7 @@ const Landing = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Brig Atul Jaiswal",
-                rank: "Commander, CTW",
-                tenure: "Present",
-                note: "Leading with excellence and dedication to shape future military leaders through innovative training methodologies."
-              },
-              {
-                name: "Brig Rajesh Kumar",
-                rank: "Former Commander, CTW", 
-                tenure: "2020-2023",
-                note: "Instrumental in modernizing training infrastructure and implementing digital learning platforms."
-              },
-              {
-                name: "Brig Suresh Sharma",
-                rank: "Former Commander, CTW",
-                tenure: "2017-2020", 
-                note: "Pioneered advanced field training exercises and inter-service cooperation programs."
-              }
-            ].map((commander, index) => (
+            {CommandersData.map((commander, index) => (
               <Card key={index} className="group hover:shadow-command transition-all duration-300">
                 <CardHeader className="text-center pb-3">
                   <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-hover rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -80,14 +62,7 @@ const Landing = () => {
           
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
-              {[
-                { year: "1943", event: "Establishment of MCEME as a premier military engineering institution" },
-                { year: "1947", event: "Post-independence expansion and modernization of training programs" },
-                { year: "1965", event: "Introduction of specialized electronics and mechanical engineering courses" },
-                { year: "1980", event: "Formation of the Cadets Training Wing (CTW) structure" },
-                { year: "2000", event: "Digital transformation and modern training methodologies implementation" },
-                { year: "2020", event: "Integration of AI and advanced technology in military training" }
-              ].map((item, index) => (
+              {historydata.map((item, index) => (
                 <div key={index} className="flex gap-4">
                   <div className="flex-shrink-0 w-20 text-right">
                     <span className="inline-flex items-center justify-center w-16 h-8 bg-primary text-primary-foreground text-sm font-semibold rounded">
