@@ -15,7 +15,7 @@ const Navbar = () => {
     { name: "Gallantry Awards", path: "/#gallantry-awards" },
     { name: "History", path: "/#history" },
     { name: "Events & News", path: "/#events-news" },
-    { name: "Schedules", path: "/#schedules" },
+    // { name: "Schedules", path: "/#schedules" },
 
 
   ];
