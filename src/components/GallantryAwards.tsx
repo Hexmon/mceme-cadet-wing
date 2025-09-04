@@ -2,45 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Medal, Star, Award } from "lucide-react";
 import gallantryImage from "@/assets/gallantry-awards.jpg";
+import { awards } from "@/config/app.config";
 
-const awards = [
-  {
-    name: "Param Vir Chakra",
-    description: "India's highest military decoration for acts of most conspicuous bravery in the presence of the enemy.",
-    icon: Medal,
-    category: "Wartime Gallantry"
-  },
-  {
-    name: "Maha Vir Chakra", 
-    description: "Second highest military decoration for acts of conspicuous gallantry in the presence of the enemy.",
-    icon: Star,
-    category: "Wartime Gallantry"
-  },
-  {
-    name: "Vir Chakra",
-    description: "Third highest wartime gallantry award for acts of bravery in the face of the enemy.",
-    icon: Award,
-    category: "Wartime Gallantry"
-  },
-  {
-    name: "Ashok Chakra",
-    description: "Highest peacetime military decoration for most conspicuous bravery or daring.",
-    icon: Medal,
-    category: "Peacetime Gallantry"
-  },
-  {
-    name: "Kirti Chakra",
-    description: "Second highest peacetime gallantry award for conspicuous gallantry.",
-    icon: Star,
-    category: "Peacetime Gallantry"
-  },
-  {
-    name: "Shaurya Chakra",
-    description: "Third highest peacetime gallantry decoration for gallantry not in the face of the enemy.",
-    icon: Award,
-    category: "Peacetime Gallantry"
-  }
-];
+
 
 const GallantryAwards = () => {
   return (

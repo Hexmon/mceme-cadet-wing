@@ -1,39 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Shield, Users } from "lucide-react";
+import { platoons } from "@/config/app.config";
 
-const platoons = [
-  {
-    name: "ARJUN",
-    tradition: "Embodies precision, strength, and discipline in all training exercises. Known for tactical excellence and unwavering commitment to duty.",
-    color: "bg-gradient-to-br from-red-500 to-red-600"
-  },
-  {
-    name: "CHANDRAGUPT", 
-    tradition: "Strategic thinking and leadership under pressure. Masters of planning and execution with a focus on innovative solutions.",
-    color: "bg-gradient-to-br from-blue-500 to-blue-600"
-  },
-  {
-    name: "RANAPRATAP",
-    tradition: "Courage, resilience, and duty before self. Exemplifies the warrior spirit and protective instincts of true defenders.",
-    color: "bg-gradient-to-br from-green-500 to-green-600"
-  },
-  {
-    name: "SHIVAJI",
-    tradition: "Ingenuity, rapid maneuver, and mission focus. Known for quick thinking and adaptive strategies in challenging scenarios.",
-    color: "bg-gradient-to-br from-purple-500 to-purple-600"
-  },
-  {
-    name: "KARNA",
-    tradition: "Honor, generosity, and steadfast commitment. Upholds the highest standards of integrity and selfless service.",
-    color: "bg-gradient-to-br from-orange-500 to-orange-600"
-  },
-  {
-    name: "PRITHVIRAJ",
-    tradition: "Valor, integrity, and esprit de corps. Fosters unity and brotherhood while maintaining operational excellence.",
-    color: "bg-gradient-to-br from-indigo-500 to-indigo-600"
-  }
-];
+
 
 const PlatoonsSection = () => {
   return (
