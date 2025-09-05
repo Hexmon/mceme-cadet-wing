@@ -6,7 +6,7 @@ import commanderImage from "@/assets/commander-placeholder.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative bg-gradient-hero text-primary-foreground py-20 overflow-hidden">
+    <section className="relative bg-gradient-hero text-primary-foreground h-screen w-full overflow-hidden flex items-center">
       {/* Background Image */}
       <div className="absolute inset-0 opacity-20">
         <img 
@@ -21,8 +21,8 @@ const Hero = () => {
           {/* Hero Content */}
           <div className="text-center lg:text-left">
             <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Cadets Training Wing
-              <span className="block text-accent">(CTW)</span>
+              MCEME
+              <span className="block text-accent"></span>
             </h1>
             <p className="text-xl mb-8 text-primary-foreground/90 max-w-2xl">
               Training Excellence for Officer Cadets (OCs) at the Military College of Electronics & Mechanical Engineering
@@ -34,7 +34,7 @@ const Hero = () => {
                 <Link to="/login?role=staff">Commander / Staff Login</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="bg-white/10 text-white border-white/30 hover:bg-white hover:text-primary">
-                <Link to="/login?role=oc">OC Login</Link>
+                <Link to="/login?role=oc">OC Corner</Link>
               </Button>
             </div>
           </div>
@@ -52,9 +52,9 @@ const Hero = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-1">Brig Atul Jaiswal</h3>
                 <p className="text-accent font-medium mb-2">Commander, Cadets Training Wing</p>
-                <p className="text-sm text-primary-foreground/80">
+                {/* <p className="text-sm text-primary-foreground/80">
                   Leading with dedication and excellence in Officer Cadet training
-                </p>
+                </p> */}
               </CardContent>
             </Card>
           </div>

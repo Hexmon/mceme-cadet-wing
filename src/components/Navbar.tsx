@@ -2,19 +2,22 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { HashLink } from "react-router-hash-link";
 
 const Navbar = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "History", path: "/#history" },
-    { name: "Gallantry Awards", path: "/#gallantry-awards" },
-    { name: "Events & News", path: "/#events-news" },
-    { name: "Schedules", path: "/#schedules" },
+    // { name: "Home", path: "/" },
     { name: "Platoons", path: "/#platoons" },
     { name: "Commander's Corner", path: "/#commanders-corner" },
+    { name: "Gallantry Awards", path: "/#gallantry-awards" },
+    { name: "History", path: "/#history" },
+    { name: "Events & News", path: "/#events-news" },
+    // { name: "Schedules", path: "/#schedules" },
+
+
   ];
 
   const isActive = (path: string) => {
@@ -28,9 +31,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img 
+            <img
               src="https://facultytick.com/wp-content/uploads/2022/03/Military-College-Of-Electronics-Mechanical-Engineering.jpg"
-              alt="MCEME Logo" 
+              alt="MCEME Logo"
               className="h-12 w-auto object-contain"
             />
             <div className="hidden sm:block">
@@ -42,18 +45,21 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-6">
             {navItems.map((item) => (
-              <Link
+              <a
                 key={item.name}
-                to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.path) ? "text-primary" : "text-muted-foreground"
-                }`}
+                href={item.path}   // e.g. "/#history"
+                className={`text-sm font-medium transition-colors hover:text-primary ${isActive(item.path) ? "text-primary" : "text-muted-foreground"
+                  }`}
               >
                 {item.name}
-              </Link>
+              </a>
             ))}
+
             <Button asChild variant="hero" size="sm">
               <Link to="/login">Login</Link>
+            </Button>
+            <Button asChild variant="hero" size="sm">
+              <Link to="/signup">Sign Up</Link>
             </Button>
           </div>
 
@@ -75,9 +81,8 @@ const Navbar = () => {
                   key={item.name}
                   to={item.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isActive(item.path) ? "text-primary" : "text-muted-foreground"
-                  }`}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${isActive(item.path) ? "text-primary" : "text-muted-foreground"
+                    }`}
                 >
                   {item.name}
                 </Link>
@@ -85,6 +90,10 @@ const Navbar = () => {
               <Button asChild variant="hero" size="sm" className="w-fit">
                 <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
               </Button>
+              <Button asChild variant="hero" size="sm" className="w-fit">
+                <Link to="/signup" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
+              </Button>
+
             </div>
           </div>
         )}
