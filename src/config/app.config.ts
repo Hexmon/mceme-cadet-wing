@@ -10,66 +10,66 @@ import {
 } from "lucide-react";
 
 export const CommandersData = [
-  {
-    id: 1,
-    name: "Brig Atul Jaiswal",
-    image: "../assets/commander-placeholder.jpg",
-    service: "Indian Army",
-    rank: "Commander, CTW",
-    tenure: "Present",
-    note: "Leading with excellence and dedication to shape future military leaders through innovative training methodologies.",
-    achievements: [
-      "Modernized MCEME curriculum with advanced engineering technologies",
-      "Established international partnerships with 15+ military academies",
-      "Led digital transformation initiative across all training programs",
-      "Increased graduation rates by 35% through innovative teaching methods",
-      "Implemented comprehensive leadership development program"
-    ],
-    legacy:
-      "General Mitchell transformed MCEME into a world-class institution through his visionary leadership and commitment to excellence. His modernization efforts established new standards for military engineering education, while his emphasis on international collaboration expanded the college's global influence. Under his command, MCEME became a beacon of innovation in military education.",
-    message:
-      "Excellence is not a destination, but a journey of continuous improvement. Every engineer we train carries forward our commitment to serve with honor and distinction."
-  },
-  {
-    id: 2,
-    name: "Brig Rajesh Kumar",
-    image: "/commander-placeholder.jpg",
-    service: "Indian Army",
-    rank: "Former Commander, CTW",
-    tenure: "2020-2023",
-    note: "Instrumental in modernizing training infrastructure and implementing digital learning platforms.",
-    achievements: [
-      "Modernized MCEME curriculum with advanced engineering technologies",
-      "Established international partnerships with 15+ military academies",
-      "Led digital transformation initiative across all training programs",
-      "Increased graduation rates by 35% through innovative teaching methods",
-      "Implemented comprehensive leadership development program"
-    ],
-    legacy:
-      "General Mitchell transformed MCEME into a world-class institution through his visionary leadership and commitment to excellence. His modernization efforts established new standards for military engineering education, while his emphasis on international collaboration expanded the college's global influence. Under his command, MCEME became a beacon of innovation in military education.",
-    message:
-      "Excellence is not a destination, but a journey of continuous improvement. Every engineer we train carries forward our commitment to serve with honor and distinction."
-  },
-  {
-    id: 3,
-    name: "Brig Suresh Sharma",
-    image: "/commander-placeholder.jpg",
-    service: "Indian Army",
-    rank: "Former Commander, CTW",
-    tenure: "2017-2020",
-    note: "Pioneered advanced field training exercises and inter-service cooperation programs.",
-    achievements: [
-      "Modernized MCEME curriculum with advanced engineering technologies",
-      "Established international partnerships with 15+ military academies",
-      "Led digital transformation initiative across all training programs",
-      "Increased graduation rates by 35% through innovative teaching methods",
-      "Implemented comprehensive leadership development program"
-    ],
-    legacy:
-      "General Mitchell transformed MCEME into a world-class institution through his visionary leadership and commitment to excellence. His modernization efforts established new standards for military engineering education, while his emphasis on international collaboration expanded the college's global influence. Under his command, MCEME became a beacon of innovation in military education.",
-    message:
-      "Excellence is not a destination, but a journey of continuous improvement. Every engineer we train carries forward our commitment to serve with honor and distinction."
-  }
+    {
+        id: 1,
+        name: "Brig Atul Jaiswal",
+        image: "../assets/commander-placeholder.jpg",
+        service: "Indian Army",
+        rank: "Commander, CTW",
+        tenure: "Present",
+        note: "Leading with excellence and dedication to shape future military leaders through innovative training methodologies.",
+        achievements: [
+            "Modernized MCEME curriculum with advanced engineering technologies",
+            "Established international partnerships with 15+ military academies",
+            "Led digital transformation initiative across all training programs",
+            "Increased graduation rates by 35% through innovative teaching methods",
+            "Implemented comprehensive leadership development program"
+        ],
+        legacy:
+            "General Mitchell transformed MCEME into a world-class institution through his visionary leadership and commitment to excellence. His modernization efforts established new standards for military engineering education, while his emphasis on international collaboration expanded the college's global influence. Under his command, MCEME became a beacon of innovation in military education.",
+        message:
+            "Excellence is not a destination, but a journey of continuous improvement. Every engineer we train carries forward our commitment to serve with honor and distinction."
+    },
+    {
+        id: 2,
+        name: "Brig Rajesh Kumar",
+        image: "/commander-placeholder.jpg",
+        service: "Indian Army",
+        rank: "Former Commander, CTW",
+        tenure: "2020-2023",
+        note: "Instrumental in modernizing training infrastructure and implementing digital learning platforms.",
+        achievements: [
+            "Modernized MCEME curriculum with advanced engineering technologies",
+            "Established international partnerships with 15+ military academies",
+            "Led digital transformation initiative across all training programs",
+            "Increased graduation rates by 35% through innovative teaching methods",
+            "Implemented comprehensive leadership development program"
+        ],
+        legacy:
+            "General Mitchell transformed MCEME into a world-class institution through his visionary leadership and commitment to excellence. His modernization efforts established new standards for military engineering education, while his emphasis on international collaboration expanded the college's global influence. Under his command, MCEME became a beacon of innovation in military education.",
+        message:
+            "Excellence is not a destination, but a journey of continuous improvement. Every engineer we train carries forward our commitment to serve with honor and distinction."
+    },
+    {
+        id: 3,
+        name: "Brig Suresh Sharma",
+        image: "/commander-placeholder.jpg",
+        service: "Indian Army",
+        rank: "Former Commander, CTW",
+        tenure: "2017-2020",
+        note: "Pioneered advanced field training exercises and inter-service cooperation programs.",
+        achievements: [
+            "Modernized MCEME curriculum with advanced engineering technologies",
+            "Established international partnerships with 15+ military academies",
+            "Led digital transformation initiative across all training programs",
+            "Increased graduation rates by 35% through innovative teaching methods",
+            "Implemented comprehensive leadership development program"
+        ],
+        legacy:
+            "General Mitchell transformed MCEME into a world-class institution through his visionary leadership and commitment to excellence. His modernization efforts established new standards for military engineering education, while his emphasis on international collaboration expanded the college's global influence. Under his command, MCEME became a beacon of innovation in military education.",
+        message:
+            "Excellence is not a destination, but a journey of continuous improvement. Every engineer we train carries forward our commitment to serve with honor and distinction."
+    }
 ]
 
 
@@ -93,7 +93,7 @@ export const platoons = [
         color: "bg-gradient-to-br from-green-500 to-green-600"
     },
     {
-        id:4,
+        id: 4,
         name: "SHIVAJI",
         tradition: "Ingenuity, rapid maneuver, and mission focus. Known for quick thinking and adaptive strategies in challenging scenarios.",
         color: "bg-gradient-to-br from-purple-500 to-purple-600"
@@ -128,28 +128,28 @@ export const awards = [
         category: "Wartime Gallantry"
     },
     {
-        id:3,
+        id: 3,
         name: "Vir Chakra",
         description: "Third highest wartime gallantry award for acts of bravery in the face of the enemy.",
         icon: Award,
         category: "Wartime Gallantry"
     },
     {
-        id:4,
+        id: 4,
         name: "Ashok Chakra",
         description: "Highest peacetime military decoration for most conspicuous bravery or daring.",
         icon: Medal,
         category: "Peacetime Gallantry"
     },
     {
-        id:5,
+        id: 5,
         name: "Kirti Chakra",
         description: "Second highest peacetime gallantry award for conspicuous gallantry.",
         icon: Star,
         category: "Peacetime Gallantry"
     },
     {
-        id:6,
+        id: 6,
         name: "Shaurya Chakra",
         description: "Third highest peacetime gallantry decoration for gallantry not in the face of the enemy.",
         icon: Award,
