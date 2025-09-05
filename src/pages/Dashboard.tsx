@@ -8,81 +8,16 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { 
-  Search, 
-  FileText, 
-  BookOpen, 
-  Users, 
-  UserCheck, 
-  Settings, 
-  Shield, 
-  HelpCircle, 
+  Search,
   LogOut,
   User
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { dashboardCards } from "@/config/app.config";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-
-  const dashboardCards = [
-    {
-      title: "Report Management",
-      description: "Generate and manage training reports",
-      icon: FileText,
-      to: "/dashboard/reports",
-      color: "bg-blue-500"
-    },
-    {
-      title: "Course Management", 
-      description: "Manage academic courses and curricula",
-      icon: BookOpen,
-      to: "/dashboard/courses",
-      color: "bg-green-500"
-    },
-    {
-      title: "Subject Management",
-      description: "Handle individual subjects and topics",
-      icon: BookOpen,
-      to: "/dashboard/subjects", 
-      color: "bg-purple-500"
-    },
-    {
-      title: "Instructor Management",
-      description: "Manage teaching staff and assignments",
-      icon: UserCheck,
-      to: "/dashboard/instructors",
-      color: "bg-orange-500"
-    },
-    {
-      title: "User Management",
-      description: "Handle user accounts and permissions",
-      icon: Users,
-      to: "/dashboard/users",
-      color: "bg-red-500"
-    },
-    {
-      title: "Site Settings",
-      description: "Configure system settings",
-      icon: Settings,
-      to: "/dashboard/settings",
-      color: "bg-gray-500"
-    },
-    {
-      title: "Appointment Management",
-      description: "Manage roles and appointments",
-      icon: Shield,
-      to: "/dashboard/appointments",
-      color: "bg-indigo-500"
-    },
-    {
-      title: "Help / How-To",
-      description: "Get help using the dashboard",
-      icon: HelpCircle,
-      to: "/dashboard/help",
-      color: "bg-teal-500"
-    }
-  ];
 
   const handleLogout = () => {
     navigate("/login");
