@@ -224,3 +224,77 @@ export const dashboardCards = [
       color: "bg-teal-500"
     }
   ]
+
+export const dashboardCards = [
+    {
+      title: "Report Management",
+      description: "Generate and manage training reports",
+      icon: FileText,
+      to: "/dashboard/reports",
+      color: "bg-blue-500"
+    },
+    {
+      title: "Course Management", 
+      description: "Manage academic courses and curricula",
+      icon: BookOpen,
+      to: "/dashboard/courses",
+      color: "bg-green-500"
+    },
+    {
+      title: "Subject Management",
+      description: "Handle individual subjects and topics",
+      icon: BookOpen,
+      to: "/dashboard/subjects", 
+      color: "bg-purple-500"
+    },
+    {
+      title: "Instructor Management",
+      description: "Manage teaching staff and assignments",
+      icon: UserCheck,
+      to: "/dashboard/instructors",
+      color: "bg-orange-500"
+    },
+    {
+      title: "User Management",
+      description: "Handle user accounts and permissions",
+      icon: Users,
+      to: "/dashboard/users",
+      color: "bg-red-500"
+    },
+    {
+      title: "Site Settings",
+      description: "Configure system settings",
+      icon: Settings,
+      to: "/dashboard/settings",
+      color: "bg-gray-500"
+    },
+    {
+      title: "Appointment Management",
+      description: "Manage roles and appointments",
+      icon: Shield,
+      to: "/dashboard/appointments",
+      color: "bg-indigo-500"
+    },
+    {
+        date: "2024-11-20",
+        title: "Cultural Evening - Mess Night",
+        description: "Traditional military mess night with cultural performances",
+        location: "Officers' Mess",
+        type: "cultural"
+    }
+]
+
+export const platoonsdata = [
+    { name: "Alpha", username: "pltn_alpha_cmdr" },
+    { name: "Bravo", username: "pltn_bravo_cmdr" },
+    { name: "Charlie", username: "pltn_charlie_cmdr" }
+]
+
+export const appointments = [
+    "Commander",
+    "Deputy Commander",
+    "DS Coord",
+    "HoAT",
+    "CCO",
+    "Platoon Commander"
+]
