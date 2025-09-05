@@ -184,11 +184,11 @@ const Dashboard = () => {
             </div>
 
             {/* Dashboard Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-11 gap-y-6 mx-auto">
               {dashboardCards.map((card, index) => {
                 const IconComponent = card.icon;
                 return (
-                  <Card key={index} className="group hover:shadow-command transition-all duration-300 cursor-pointer">
+                  <Card key={index} className="group hover:shadow-command transition-all duration-300 cursor-pointer rounded-xl shadow-lg">
                     <CardHeader className="pb-3">
                       <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${card.color} text-white`}>
