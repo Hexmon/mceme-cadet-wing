@@ -12,7 +12,9 @@ import {
   Shield,
   HelpCircle,
   ChevronRight,
-  UserCheck
+  UserCheck,
+  Book,
+  CalendarDays,
 } from "lucide-react";
 
 import {
@@ -24,42 +26,48 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 
 const menuItems = [
   {
     group: "Dashboard",
-    items: [
-      { title: "Home", url: "/dashboard", icon: Home }
-    ]
+    items: [{ title: "Home", url: "/dashboard", icon: Home }]
+  },
+  {
+    group: "Subject Management",
+    items: [{ title: "Subjects", url: "/dashboard/subjects", icon: Book }]
+  },
+  {
+    group: "Instructor Management",
+    items: [{ title: "Instructors", url: "/dashboard/instructors", icon: GraduationCap }]
+  },
+  {
+    group: "User Management",
+    items: [{ title: "Users", url: "/dashboard/users", icon: Shield }]
+  },
+  {
+    group: "Appointment Management",
+    items: [{ title: "Appointments", url: "/dashboard/appointments", icon: CalendarDays }]
   },
   {
     group: "Assessment – NSA",
-    items: [
-      { title: "OLQA", url: "/dashboard/olqa", icon: FileText }
-    ]
+    items: [{ title: "OLQA", url: "/dashboard/olqa", icon: FileText }]
   },
   {
-    group: "Overall OC Details", 
-    items: [
-      { title: "View All", url: "/dashboard/oc-details", icon: Users }
-    ]
+    group: "Overall OC Details",
+    items: [{ title: "View All", url: "/dashboard/view-ocs", icon: Users }]
   },
   {
     group: "Academics",
-    items: [
-      { title: "Coming Soon", url: "/dashboard/academics", icon: BookOpen, badge: "Soon" }
-    ]
+    items: [{ title: "Coming Soon", url: "/dashboard/academics", icon: BookOpen, badge: "Soon" }]
   },
   {
     group: "Physical Training & Sports",
-    items: [
-      { title: "Activities", url: "/dashboard/pts", icon: Activity }
-    ]
+    items: [{ title: "Activities", url: "/dashboard/activities", icon: Activity }]
   },
   {
     group: "Interview",
@@ -74,15 +82,11 @@ const menuItems = [
   },
   {
     group: "Report Management",
-    items: [
-      { title: "Reports", url: "/dashboard/reports", icon: FileText }
-    ]
+    items: [{ title: "Reports", url: "/dashboard/reports", icon: FileText }]
   },
   {
     group: "Site Settings",
-    items: [
-      { title: "Configuration", url: "/dashboard/settings", icon: Settings }
-    ]
+    items: [{ title: "Configuration", url: "/dashboard/settings", icon: Settings }]
   }
 ];
 
@@ -91,35 +95,28 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
-  
+
   const [openGroups, setOpenGroups] = useState<string[]>(["Interview"]);
 
   const isActive = (path: string) => currentPath === path;
-  const isGroupActive = (items: any[]) => items.some(item => isActive(item.url));
-
-  // const getNavCls = ({ isActive }: { isActive: boolean }) =>
-  //   isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-accent/50";
 
   const toggleGroup = (groupName: string) => {
-    setOpenGroups(prev => 
-      prev.includes(groupName) 
+    setOpenGroups(prev =>
+      prev.includes(groupName)
         ? prev.filter(g => g !== groupName)
         : [...prev, groupName]
     );
   };
 
   return (
-    <Sidebar
-      className={collapsed ? "w-16" : "w-64"}
-      collapsible="icon"
-    >
+    <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarContent className="bg-card border-r border-border">
         {/* Logo */}
         <div className="p-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <img 
+            <img
               src="https://facultytick.com/wp-content/uploads/2022/03/Military-College-Of-Electronics-Mechanical-Engineering.jpg"
-              alt="MCEME Logo" 
+              alt="MCEME Logo"
               className="h-8 w-8 object-contain rounded"
             />
             {!collapsed && (
@@ -146,7 +143,7 @@ export function AppSidebar() {
           {menuItems.map((section) => (
             <SidebarGroup key={section.group}>
               {section.collapsible ? (
-                <Collapsible 
+                <Collapsible
                   open={openGroups.includes(section.group)}
                   onOpenChange={() => toggleGroup(section.group)}
                 >
@@ -156,10 +153,8 @@ export function AppSidebar() {
                         {collapsed ? section.group.charAt(0) : section.group}
                       </span>
                       {!collapsed && (
-                        <ChevronRight 
-                          className={`h-3 w-3 transition-transform ${
-                            openGroups.includes(section.group) ? 'rotate-90' : ''
-                          }`}
+                        <ChevronRight
+                          className={`h-3 w-3 transition-transform ${openGroups.includes(section.group) ? "rotate-90" : ""}`}
                         />
                       )}
                     </SidebarGroupLabel>
@@ -170,7 +165,7 @@ export function AppSidebar() {
                         {section.items.map((item) => (
                           <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton asChild>
-                              <NavLink to={item.url} >
+                              <NavLink to={item.url}>
                                 <item.icon className="h-4 w-4" />
                                 {!collapsed && (
                                   <div className="flex items-center justify-between w-full">
@@ -202,7 +197,7 @@ export function AppSidebar() {
                       {section.items.map((item) => (
                         <SidebarMenuItem key={item.title}>
                           <SidebarMenuButton asChild>
-                            <NavLink to={item.url} >
+                            <NavLink to={item.url}>
                               <item.icon className="h-4 w-4" />
                               {!collapsed && (
                                 <div className="flex items-center justify-between w-full">
@@ -231,7 +226,7 @@ export function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <NavLink to="/dashboard/help" >
+                <NavLink to="/dashboard/help">
                   <HelpCircle className="h-4 w-4" />
                   {!collapsed && <span>Help / How-To</span>}
                 </NavLink>

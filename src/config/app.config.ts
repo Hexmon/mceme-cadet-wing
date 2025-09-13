@@ -285,9 +285,12 @@ export const dashboardCards = [
 ]
 
 export const platoonsdata = [
-    { name: "Alpha", username: "pltn_alpha_cmdr" },
-    { name: "Bravo", username: "pltn_bravo_cmdr" },
-    { name: "Charlie", username: "pltn_charlie_cmdr" }
+    { name: "Arjun", username: "pltn_arjun_cmdr" },
+    { name: "Chandragupt", username: "pltn_chandragupt_cmdr" },
+    { name: "Ranapratap", username: "pltn_ranapratap_cmdr" },
+    { name: "Shivaji", username: "pltn_shivaji_cmdr" },
+    { name: "Karna", username: "pltn_karna_cmdr" },
+    { name: "Prithviraj", username: "pltn_prithviraj_cmdr" },
 ]
 
 export const appointments = [
@@ -297,4 +300,70 @@ export const appointments = [
     "HoAT",
     "CCO",
     "Platoon Commander"
+]
+
+export const activities = [
+  {
+    name: "Obstacle Course",
+    category: "training",
+    duration: "2 weeks",
+    status: "completed",
+  },
+  {
+    name: "Morning PT",
+    category: "training",
+    duration: "Daily",
+    status: "ongoing",
+  },
+  {
+    name: "Morning PT",
+    category: "training",
+    duration: "Daily",
+    status: "ongoing",
+  },
+  {
+    name: "Football Championship",
+    category: "sports",
+    duration: "1 week",
+    status: "completed",
+  },
+  {
+    name: "Annual Sports Meet",
+    category: "sports",
+    duration: "3 days",
+    status: "ongoing",
+  },
+   {
+    name: "Football Championship",
+    category: "sports",
+    duration: "1 week",
+    status: "completed",
+  }
+]
+
+export const subjects = [
+    {
+        code: "CS101",
+        name: "Computer Fundamentals",
+        semester: "Semester 1",
+        instructor: "Lt. Sharma",
+        coverage: 85,
+        status: "in-progress",
+    },
+    {
+        code: "ME203",
+        name: "Thermodynamics",
+        semester: "Semester 3",
+        instructor: "Capt. Rao",
+        coverage: 100,
+        status: "completed",
+    },
+    {
+        code: "EE150",
+        name: "Circuit Analysis",
+        semester: "Semester 2",
+        instructor: "Maj. Verma",
+        coverage: 60,
+        status: "in-progress",
+    },
 ]
