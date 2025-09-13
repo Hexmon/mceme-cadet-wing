@@ -8,14 +8,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { 
-  Search, 
-  FileText, 
-  BookOpen, 
-  Users, 
-  UserCheck, 
-  Settings, 
-  Shield, 
-  HelpCircle, 
+  Search,
   LogOut,
   User
 } from "lucide-react";

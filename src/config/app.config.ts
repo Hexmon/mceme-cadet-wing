@@ -225,64 +225,55 @@ export const dashboardCards = [
     }
   ]
 
-export const scheduledata = [
-    { day: "Monday", activity: "Physical Training & Parade", time: "0600-0800", type: "PT" },
-    { day: "Tuesday", activity: "Electronics Theory", time: "0900-1200", type: "Academic" },
-    { day: "Wednesday", activity: "Mechanical Workshop", time: "1400-1700", type: "Practical" },
-    { day: "Thursday", activity: "Field Training Exercise", time: "0800-1600", type: "Field" },
-    { day: "Friday", activity: "Assessment & Review", time: "0900-1200", type: "Assessment" },
-    { day: "Saturday", activity: "Sports & Recreation", time: "1500-1800", type: "Sports" }
-]
-
-export const events = [
+export const dashboardCards = [
     {
-        date: "2024-12-15",
-        title: "Annual Passing Out Parade",
-        description: "Graduation ceremony for the current batch of Officer Cadets",
-        location: "Main Parade Ground",
-        type: "ceremony"
+      title: "Report Management",
+      description: "Generate and manage training reports",
+      icon: FileText,
+      to: "/dashboard/reports",
+      color: "bg-blue-500"
     },
     {
-        date: "2024-12-10",
-        title: "Inter-Platoon Sports Competition",
-        description: "Annual sports competition between all six platoons",
-        location: "Sports Complex",
-        type: "sports"
+      title: "Course Management", 
+      description: "Manage academic courses and curricula",
+      icon: BookOpen,
+      to: "/dashboard/courses",
+      color: "bg-green-500"
     },
     {
-        date: "2024-12-08",
-        title: "Technical Symposium on Modern Warfare",
-        description: "Expert lectures on electronic warfare and modern military technology",
-        location: "Auditorium",
-        type: "academic"
+      title: "Subject Management",
+      description: "Handle individual subjects and topics",
+      icon: BookOpen,
+      to: "/dashboard/subjects", 
+      color: "bg-purple-500"
     },
     {
-        date: "2024-12-05",
-        title: "Field Training Exercise - Phase II",
-        description: "Advanced tactical training in field conditions",
-        location: "Training Area Alpha",
-        type: "training"
+      title: "Instructor Management",
+      description: "Manage teaching staff and assignments",
+      icon: UserCheck,
+      to: "/dashboard/instructors",
+      color: "bg-orange-500"
     },
     {
-        date: "2024-12-01",
-        title: "Commandant's Inspection",
-        description: "Quarterly inspection and review of cadet progress",
-        location: "All Areas",
-        type: "inspection"
+      title: "User Management",
+      description: "Handle user accounts and permissions",
+      icon: Users,
+      to: "/dashboard/users",
+      color: "bg-red-500"
     },
     {
-        date: "2024-11-28",
-        title: "Alumni Guest Lecture Series",
-        description: "Distinguished alumni sharing experiences and insights",
-        location: "Conference Hall",
-        type: "academic"
+      title: "Site Settings",
+      description: "Configure system settings",
+      icon: Settings,
+      to: "/dashboard/settings",
+      color: "bg-gray-500"
     },
     {
-        date: "2024-11-25",
-        title: "Equipment Maintenance Workshop",
-        description: "Hands-on training for electronic and mechanical systems",
-        location: "Workshop Complex",
-        type: "training"
+      title: "Appointment Management",
+      description: "Manage roles and appointments",
+      icon: Shield,
+      to: "/dashboard/appointments",
+      color: "bg-indigo-500"
     },
     {
         date: "2024-11-20",
