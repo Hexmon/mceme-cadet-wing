@@ -1,105 +1,65 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CalendarDays, User, FileText, Edit3 } from "lucide-react";
-import { useState } from "react";
 
 interface DossierDetail {
   label: string;
   value: string;
-  editable?: boolean;
+  editable: boolean;
 }
 
 interface DossierSectionProps {
   title: string;
   details: DossierDetail[];
-  status: "pending" | "completed" | "in-progress";
+  status: "completed" | "in-progress" | "pending";
 }
 
 export const DossierSection = ({ title, details, status }: DossierSectionProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedDetails, setEditedDetails] = useState(details);
-
-  const getStatusColor = () => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-accent/10 text-accent border-accent/20";
+        return "bg-emerald-500/10 text-emerald-700 border-emerald-200";
       case "in-progress":
-        return "bg-primary/10 text-primary border-primary/20";
+        return "bg-blue-500/10 text-blue-700 border-blue-200";
+      case "pending":
+        return "bg-amber-500/10 text-amber-700 border-amber-200";
       default:
-        return "bg-muted text-muted-foreground";
+        return "bg-gray-500/10 text-gray-700 border-gray-200";
     }
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Handle save logic here
-  };
-
-  const handleEdit = (index: number, value: string) => {
-    const updated = [...editedDetails];
-    updated[index] = { ...updated[index], value };
-    setEditedDetails(updated);
-  };
-
   return (
-    <Card className="bg-gradient-card shadow-card">
-      <CardHeader className="pb-4">
+    <Card>
+      <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-semibold text-foreground flex items-center gap-2">
-            <FileText className="h-5 w-5" />
-            {title}
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className={getStatusColor()}>
-              {status.charAt(0).toUpperCase() + status.slice(1)}
-            </Badge>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsEditing(!isEditing)}
-              className="h-8 w-8 p-0"
-            >
-              <Edit3 className="h-3 w-3" />
-            </Button>
-          </div>
+          <CardTitle className="text-xl font-semibold">{title}</CardTitle>
+          <Badge variant="outline" className={getStatusColor(status)}>
+            {status.replace('-', ' ')}
+          </Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {editedDetails.map((detail, index) => (
-            <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
-              <Label className="text-sm font-medium text-muted-foreground">
-                {detail.label}:
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {details.map((detail, index) => (
+            <div key={index} className="space-y-2">
+              <Label htmlFor={`detail-${index}`} className="text-sm font-medium">
+                {detail.label}
               </Label>
-              {isEditing && detail.editable ? (
+              {detail.editable ? (
                 <Input
+                  id={`detail-${index}`}
                   value={detail.value}
-                  onChange={(e) => handleEdit(index, e.target.value)}
-                  className="col-span-2"
+                  placeholder={`Enter ${detail.label.toLowerCase()}`}
+                  className="text-sm"
                 />
               ) : (
-                <div className="col-span-2">
-                  <span className="text-sm font-medium text-foreground">
-                    {detail.value || "—"}
-                  </span>
+                <div className="p-2 bg-muted rounded-md text-sm">
+                  {detail.value || "Not set"}
                 </div>
               )}
             </div>
           ))}
-          
-          {isEditing && (
-            <div className="flex justify-end gap-2 pt-4 border-t">
-              <Button variant="outline" onClick={() => setIsEditing(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleSave}>
-                Save Changes
-              </Button>
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>

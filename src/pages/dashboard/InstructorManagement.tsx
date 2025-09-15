@@ -15,39 +15,164 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from "@/components/ui/sidebar";
-import { Search, User, LogOut, Book, ListChecks, Settings } from "lucide-react";
+import { Search, User, LogOut, Book, ListChecks, Settings, Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "@/hooks/use-toast";
 
-// Sample data
-const instructors = [
+// Initial sample data
+const initialInstructors = [
   {
+    id: "1",
     name: "Lt. Sharma",
     email: "sharma.lt@mceme.gov.in",
     department: "Computer Science",
     assignedSubjects: 2,
-    status: "active",
+    status: "active" as const,
   },
   {
+    id: "2", 
     name: "Capt. Rao",
     email: "rao.capt@mceme.gov.in",
     department: "Mechanical",
     assignedSubjects: 3,
-    status: "on-leave",
+    status: "on-leave" as const,
   },
   {
+    id: "3",
     name: "Maj. Verma",
     email: "verma.maj@mceme.gov.in",
     department: "Electrical",
     assignedSubjects: 1,
-    status: "retired",
+    status: "retired" as const,
   },
 ];
 
-export default function InstructorManagement() {
+const InstructorManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [instructors, setInstructors] = useState(initialInstructors);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingInstructor, setEditingInstructor] = useState<typeof initialInstructors[0] | null>(null);
+  const [formData, setFormData] = useState<{
+    name: string;
+    email: string;
+    department: string;
+    status: "active" | "on-leave" | "retired";
+  }>({
+    name: "",
+    email: "",
+    department: "",
+    status: "active",
+  });
+
+  const departments = ["Computer Science", "Mechanical", "Electrical", "Civil", "Electronics"];
 
   const handleLogout = () => {
     console.log("Logout clicked");
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      department: "",
+      status: "active",
+    });
+  };
+
+  const handleAddInstructor = () => {
+    if (!formData.name || !formData.email || !formData.department) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newInstructor = {
+      id: Date.now().toString(),
+      name: formData.name,
+      email: formData.email,
+      department: formData.department,
+      assignedSubjects: 0,
+      status: formData.status,
+    };
+
+    setInstructors([...instructors, newInstructor]);
+    setIsAddDialogOpen(false);
+    resetForm();
+    
+    toast({
+      title: "Success",
+      description: "Instructor added successfully!",
+    });
+  };
+
+  const handleEditInstructor = () => {
+    if (!formData.name || !formData.email || !formData.department || !editingInstructor) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setInstructors(instructors.map(instructor => 
+      instructor.id === editingInstructor.id 
+        ? { ...instructor, ...formData }
+        : instructor
+    ));
+    
+    setIsEditDialogOpen(false);
+    setEditingInstructor(null);
+    resetForm();
+    
+    toast({
+      title: "Success",
+      description: "Instructor updated successfully!",
+    });
+  };
+
+  const handleDeleteInstructor = (id: string, name: string) => {
+    setInstructors(instructors.filter(instructor => instructor.id !== id));
+    toast({
+      title: "Success",
+      description: `${name} has been deleted successfully!`,
+    });
+  };
+
+  const openEditDialog = (instructor: typeof initialInstructors[0]) => {
+    setEditingInstructor(instructor);
+    setFormData({
+      name: instructor.name,
+      email: instructor.email,
+      department: instructor.department,
+      status: instructor.status,
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const openAddDialog = () => {
+    resetForm();
+    setIsAddDialogOpen(true);
   };
 
   return (
@@ -152,22 +277,100 @@ export default function InstructorManagement() {
               <TabsContent value="instructors" className="space-y-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-foreground">Instructor List</h2>
-                  <Button variant="outline">Add Instructor</Button>
+                  <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button onClick={openAddDialog}>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Instructor
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Add New Instructor</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="name">Name *</Label>
+                          <Input
+                            id="name"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            placeholder="Enter instructor name"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="email">Email *</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            placeholder="instructor@mceme.gov.in"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="department">Department *</Label>
+                          <Select
+                            value={formData.department}
+                            onValueChange={(value) => setFormData({ ...formData, department: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select department" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {departments.map((dept) => (
+                                <SelectItem key={dept} value={dept}>
+                                  {dept}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label htmlFor="status">Status</Label>
+                          <Select
+                            value={formData.status}
+                            onValueChange={(value: "active" | "on-leave" | "retired") => 
+                              setFormData({ ...formData, status: value })
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="active">Active</SelectItem>
+                              <SelectItem value="on-leave">On Leave</SelectItem>
+                              <SelectItem value="retired">Retired</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={handleAddInstructor}>Add Instructor</Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {instructors
                     .filter((instructor) =>
                       instructor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                       instructor.email.toLowerCase().includes(searchQuery.toLowerCase())
                     )
-                    .map((instructor, index) => (
+                    .map((instructor) => (
                       <InstructorCard
-                        key={index}
+                        key={instructor.id}
                         name={instructor.name}
                         email={instructor.email}
                         department={instructor.department}
                         assignedSubjects={instructor.assignedSubjects}
-                        status={instructor.status as "active" | "on-leave" | "retired"}
+                        status={instructor.status}
+                        onEdit={() => openEditDialog(instructor)}
+                        onDelete={() => handleDeleteInstructor(instructor.id, instructor.name)}
                       />
                     ))}
                 </div>
@@ -194,6 +397,80 @@ export default function InstructorManagement() {
           </main>
         </div>
       </div>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Instructor</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="edit-name">Name *</Label>
+              <Input
+                id="edit-name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Enter instructor name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-email">Email *</Label>
+              <Input
+                id="edit-email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="instructor@mceme.gov.in"
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-department">Department *</Label>
+              <Select
+                value={formData.department}
+                onValueChange={(value) => setFormData({ ...formData, department: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept} value={dept}>
+                      {dept}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="edit-status">Status</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: "active" | "on-leave" | "retired") => 
+                  setFormData({ ...formData, status: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="on-leave">On Leave</SelectItem>
+                  <SelectItem value="retired">Retired</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleEditInstructor}>Save Changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
-}
+};
+
+export default InstructorManagement;

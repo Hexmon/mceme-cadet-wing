@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, UserCheck, Clock, FileText } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Edit, Trash2, Mail, BookOpen } from "lucide-react";
 
 interface InstructorCardProps {
   name: string;
@@ -8,63 +10,94 @@ interface InstructorCardProps {
   department: string;
   assignedSubjects: number;
   status: "active" | "on-leave" | "retired";
-  onClick?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export const InstructorCard = ({
+export function InstructorCard({
   name,
   email,
   department,
   assignedSubjects,
   status,
-  onClick,
-}: InstructorCardProps) => {
-  const getStatusIcon = () => {
+  onEdit,
+  onDelete,
+}: InstructorCardProps) {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return <UserCheck className="h-4 w-4 text-primary" />;
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
       case "on-leave":
-        return <Clock className="h-4 w-4 text-yellow-500" />;
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+      case "retired":
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
       default:
-        return <FileText className="h-4 w-4 text-muted-foreground" />;
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
     }
   };
 
-  const getStatusBadge = () => {
-    switch (status) {
-      case "active":
-        return <Badge variant="default">Active</Badge>;
-      case "on-leave":
-        return <Badge variant="secondary" className="text-yellow-800 bg-yellow-100">On Leave</Badge>;
-      default:
-        return <Badge variant="outline">Retired</Badge>;
-    }
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
-    <Card
-      onClick={onClick}
-      className="group cursor-pointer transition-all duration-300 hover:shadow-hover hover:-translate-y-1 bg-card border-border/50"
-    >
+    <Card className="h-full hover:shadow-md transition-shadow">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            {getStatusIcon()}
-            <CardTitle className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-              {name}
-            </CardTitle>
+          <div className="flex items-center gap-3">
+            <Avatar className="h-12 w-12">
+              <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+                {getInitials(name)}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <h3 className="font-semibold text-foreground">{name}</h3>
+              <p className="text-sm text-muted-foreground">{department}</p>
+            </div>
           </div>
-          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-        </div>
-        <div className="flex justify-between text-sm mt-2 text-muted-foreground">
-          <span>{email}</span>
-          {getStatusBadge()}
+          <Badge className={getStatusColor(status)} variant="secondary">
+            {status.replace("-", " ")}
+          </Badge>
         </div>
       </CardHeader>
-      <CardContent className="pt-0 space-y-1">
-        <p className="text-sm text-muted-foreground">Department: {department}</p>
-        <p className="text-sm text-muted-foreground">Subjects Assigned: {assignedSubjects}</p>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Mail className="h-4 w-4" />
+            <span className="truncate">{email}</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <BookOpen className="h-4 w-4" />
+            <span>{assignedSubjects} subjects assigned</span>
+          </div>
+        </div>
+        
+        <div className="flex gap-2 pt-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1"
+            onClick={onEdit}
+          >
+            <Edit className="h-4 w-4 mr-1" />
+            Edit
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 text-destructive hover:text-destructive"
+            onClick={onDelete}
+          >
+            <Trash2 className="h-4 w-4 mr-1" />
+            Delete
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
-};
+}

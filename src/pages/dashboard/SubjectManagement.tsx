@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SubjectCard } from "@/components/subjects/SubjectCard";
+import { AddSubjectDialog } from "@/components/subjects/AddSubjectDialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,15 +18,36 @@ import {
     SidebarProvider,
     SidebarTrigger
 } from "@/components/ui/sidebar";
-import { Book, Search, User, LogOut, Settings, ListChecks } from "lucide-react";
-import { subjects } from "@/config/app.config";
+import { Book, Search, User, LogOut, Settings, ListChecks, Plus } from "lucide-react";
+import { subjects as initialSubjects, type Subject } from "@/config/app.config";
 
-export default function SubjectManagement() {
+const Index = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [subjects, setSubjects] = useState<Subject[]>(initialSubjects);
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
     const handleLogout = () => {
         console.log("Logout clicked");
     };
+
+    const handleAddSubject = (newSubject: Omit<Subject, "id">) => {
+        const id = Date.now().toString();
+        setSubjects(prev => [...prev, { ...newSubject, id }]);
+    };
+
+    const handleEditSubject = (id: string) => {
+        console.log("Edit subject:", id);
+        // The actual editing is handled in the SubjectEditDialog
+    };
+
+    const handleDeleteSubject = (id: string) => {
+        setSubjects(prev => prev.filter(subject => subject.id !== id));
+    };
+
+    const filteredSubjects = subjects.filter(subject =>
+        subject.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        subject.code.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <SidebarProvider>
@@ -130,26 +152,30 @@ export default function SubjectManagement() {
                             <TabsContent value="subjects" className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
-                                    <Button variant="outline">Add Subject</Button>
+                                    <Button 
+                                        variant="outline" 
+                                        onClick={() => setIsAddDialogOpen(true)}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <Plus className="h-4 w-4" />
+                                        Add Subject
+                                    </Button>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {subjects
-                                        .filter(subject =>
-                                            subject.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                            subject.code.toLowerCase().includes(searchQuery.toLowerCase())
-                                        )
-                                        .map((subject, index) => (
-                                            <SubjectCard
-                                                key={index}
-                                                name={subject.name}
-                                                code={subject.code}
-                                                instructor={subject.instructor}
-                                                semester={subject.semester}
-                                                coverage={subject.coverage}
-                                                status={subject.status as "pending" | "in-progress" | "completed"}
-                                            />
-                                        ))}
-
+                                    {filteredSubjects.map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            code={subject.code}
+                                            instructor={subject.instructor}
+                                            semester={subject.semester}
+                                            coverage={subject.coverage}
+                                            status={subject.status}
+                                            onEdit={handleEditSubject}
+                                            onDelete={handleDeleteSubject}
+                                        />
+                                    ))}
                                 </div>
                             </TabsContent>
 
@@ -174,6 +200,14 @@ export default function SubjectManagement() {
                     </main>
                 </div>
             </div>
+
+            <AddSubjectDialog
+                isOpen={isAddDialogOpen}
+                onOpenChange={setIsAddDialogOpen}
+                onAdd={handleAddSubject}
+            />
         </SidebarProvider>
     );
-}
+};
+
+export default Index;
