@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
-import { CourseCard } from "@/components/courses/CourseCard";
+import { CourseCard, Course } from "@/components/courses/CourseCard";
 import { DossierSection } from "@/components/courses/DossierSection";
+import { CourseFormModal } from "@/components/courses/CourseFormModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,43 +26,105 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { FileText, BarChart3, Calendar, Settings, Search, User, LogOut } from "lucide-react";
+import { FileText, BarChart3, Calendar, Settings, Search, User, LogOut, Plus } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
-const Index = () => {
-  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+const CoursePage = () => {
+const [courses, setCourses] = useState<Course[]>([
+  { id: "1", title: "Dossier Insp Sheet", pageRange: "5-6", progress: 100, status: "completed", description: "Initial inspection and verification documents" },
+  { id: "2", title: "Pers Particulars", pageRange: "7-10", progress: 90, status: "in-progress", description: "Personal details and background information" },
+  { id: "3", title: "SSB Report", pageRange: "11", progress: 75, status: "in-progress", description: "Services Selection Board assessment report" },
+  { id: "4", title: "Med Info", pageRange: "12-14", progress: 60, status: "in-progress", description: "Medical examination records and fitness reports" },
+  { id: "5", title: "Discp Record", pageRange: "15-16", progress: 0, status: "pending", description: "Disciplinary actions and conduct records" },
+  { id: "6", title: "Record of Comm with Parent/Guardian", pageRange: "17-22", progress: 0, status: "pending", description: "Communication logs with family members" },
+  { id: "7", title: "Acad", pageRange: "23-30", progress: 80, status: "in-progress", description: "Academic performance and course records" },
+  { id: "8", title: "Phy Trg", pageRange: "31-37", progress: 85, status: "in-progress", description: "Physical training assessments and progress" },
+  { id: "9", title: "Sports/Games & Motivation Awards", pageRange: "38-39", progress: 40, status: "in-progress", description: "Sports participation and achievement records" },
+  { id: "10", title: "Wpn Trg", pageRange: "40", progress: 20, status: "pending", description: "Weapons training and proficiency records" },
+  { id: "11", title: "Obstacle Trg", pageRange: "41", progress: 30, status: "pending", description: "Obstacle course training and performance" },
+  { id: "12", title: "Camps", pageRange: "42-44", progress: 0, status: "pending", description: "Training camp participation and reports" },
+  { id: "13", title: "Club & Drill", pageRange: "45", progress: 70, status: "in-progress", description: "Drill practice and club activities" },
+  { id: "14", title: "Credit For Excellence (CFE)", pageRange: "46-47", progress: 0, status: "pending", description: "Excellence credits and recognition" },
+  { id: "15", title: "OLQ", pageRange: "44-57", progress: 50, status: "in-progress", description: "Officer Like Qualities assessment" },
+  { id: "16", title: "Semester Performance Record", pageRange: "58-69", progress: 65, status: "in-progress", description: "Detailed semester-wise performance tracking" },
+  { id: "17", title: "Final Performance Record", pageRange: "70", progress: 0, status: "pending", description: "Final assessment and graduation records" },
+  { id: "18", title: "Overall Assessment (on Passing Out)", pageRange: "71-72", progress: 0, status: "pending", description: "Comprehensive final evaluation" },
+  { id: "19", title: "Record of Lve, Hike & Detention", pageRange: "73", progress: 10, status: "pending", description: "Leave, hiking, and detention records" },
+  { id: "20", title: "Interview Detls", pageRange: "74-102", progress: 0, status: "pending", description: "Interview schedules and feedback" },
+  { id: "21", title: "Counselling/Warning Record", pageRange: "103-104", progress: 0, status: "pending", description: "Counselling sessions and warnings issued" },
+  { id: "22", title: "Performance Graph", pageRange: "105-106", progress: 25, status: "pending", description: "Visual performance tracking and analytics" },
+  { id: "23", title: "Indl Course Report", pageRange: "107", progress: 0, status: "pending", description: "Individual course completion report" }
+]);
+
+
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
 
   const handleLogout = () => {
-    // Logout logic will be implemented here
     console.log("Logout clicked");
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
   };
 
-  // Course sections based on the dossier image
-  const courseSections = [
-    { title: "Dossier Insp Sheet", pageRange: "5-6", progress: 100, status: "completed" as const, description: "Initial inspection and verification documents" },
-    { title: "Pers Particulars", pageRange: "7-10", progress: 90, status: "in-progress" as const, description: "Personal details and background information" },
-    { title: "SSB Report", pageRange: "11", progress: 75, status: "in-progress" as const, description: "Services Selection Board assessment report" },
-    { title: "Med Info", pageRange: "12-14", progress: 60, status: "in-progress" as const, description: "Medical examination records and fitness reports" },
-    { title: "Discp Record", pageRange: "15-16", progress: 0, status: "pending" as const, description: "Disciplinary actions and conduct records" },
-    { title: "Record of Comm with Parent/Guardian", pageRange: "17-22", progress: 0, status: "pending" as const, description: "Communication logs with family members" },
-    { title: "Acad", pageRange: "23-30", progress: 80, status: "in-progress" as const, description: "Academic performance and course records" },
-    { title: "Phy Trg", pageRange: "31-37", progress: 85, status: "in-progress" as const, description: "Physical training assessments and progress" },
-    { title: "Sports/Games & Motivation Awards", pageRange: "38-39", progress: 40, status: "in-progress" as const, description: "Sports participation and achievement records" },
-    { title: "Wpn Trg", pageRange: "40", progress: 20, status: "pending" as const, description: "Weapons training and proficiency records" },
-    { title: "Obstacle Trg", pageRange: "41", progress: 30, status: "pending" as const, description: "Obstacle course training and performance" },
-    { title: "Camps", pageRange: "42-44", progress: 0, status: "pending" as const, description: "Training camp participation and reports" },
-    { title: "Club & Drill", pageRange: "45", progress: 70, status: "in-progress" as const, description: "Drill practice and club activities" },
-    { title: "Credit For Excellence (CFE)", pageRange: "46-47", progress: 0, status: "pending" as const, description: "Excellence credits and recognition" },
-    { title: "OLQ", pageRange: "44-57", progress: 50, status: "in-progress" as const, description: "Officer Like Qualities assessment" },
-    { title: "Semester Performance Record", pageRange: "58-69", progress: 65, status: "in-progress" as const, description: "Detailed semester-wise performance tracking" },
-    { title: "Final Performance Record", pageRange: "70", progress: 0, status: "pending" as const, description: "Final assessment and graduation records" },
-    { title: "Overall Assessment (on Passing Out)", pageRange: "71-72", progress: 0, status: "pending" as const, description: "Comprehensive final evaluation" },
-    { title: "Record of Lve, Hike & Detention", pageRange: "73", progress: 10, status: "pending" as const, description: "Leave, hiking, and detention records" },
-    { title: "Interview Detls", pageRange: "74-102", progress: 0, status: "pending" as const, description: "Interview schedules and feedback" },
-    { title: "Counselling/Warning Record", pageRange: "103-104", progress: 0, status: "pending" as const, description: "Counselling sessions and warnings issued" },
-    { title: "Performance Graph", pageRange: "105-106", progress: 25, status: "pending" as const, description: "Visual performance tracking and analytics" },
-    { title: "Indl Course Report", pageRange: "107", progress: 0, status: "pending" as const, description: "Individual course completion report" }
-  ];
+  const handleAddCourse = () => {
+    setFormMode('add');
+    setSelectedCourse(null);
+    setIsFormModalOpen(true);
+  };
+
+  const handleEditCourse = (course: Course) => {
+    setFormMode('edit');
+    setSelectedCourse(course);
+    setIsFormModalOpen(true);
+  };
+
+  const handleViewCourse = (course: Course) => {
+    setSelectedCourse(course);
+    setViewDialogOpen(true);
+  };
+
+  const handleDeleteCourse = (courseId: string) => {
+    setCourses(courses.filter(course => course.id !== courseId));
+    toast({
+      title: "Course deleted",
+      description: "The course has been successfully deleted.",
+      variant: "destructive",
+    });
+  };
+
+  const handleSaveCourse = (courseData: Omit<Course, 'id'>) => {
+    if (formMode === 'add') {
+      const newCourse: Course = {
+        ...courseData,
+        id: Date.now().toString(),
+      };
+      setCourses([...courses, newCourse]);
+      toast({
+        title: "Course added",
+        description: "New course has been successfully added.",
+      });
+    } else if (formMode === 'edit' && selectedCourse) {
+      setCourses(courses.map(course => 
+        course.id === selectedCourse.id 
+          ? { ...courseData, id: selectedCourse.id }
+          : course
+      ));
+      toast({
+        title: "Course updated",
+        description: "Course has been successfully updated.",
+      });
+    }
+  };
+
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const dossierDetails = [
     { label: "Initiated by", value: "Maj. Kumar, A.K.", editable: true },
@@ -66,7 +136,7 @@ const Index = () => {
   ];
 
   const overallProgress = Math.round(
-    courseSections.reduce((acc, section) => acc + section.progress, 0) / courseSections.length
+    courses.reduce((acc, course) => acc + course.progress, 0) / courses.length
   );
 
   return (
@@ -91,7 +161,7 @@ const Index = () => {
                 <div className="relative hidden md:block">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
-                    placeholder="Search OCs, courses, subjects..."
+                    placeholder="Search courses, subjects..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 w-80"
@@ -145,7 +215,7 @@ const Index = () => {
                     <span className="text-muted-foreground">/</span>
                   </li>
                   <li className="text-primary" aria-current="page">
-                    Home
+                    Course Management
                   </li>
                 </ol>
               </nav>
@@ -153,14 +223,15 @@ const Index = () => {
 
             {/* Welcome Section */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-primary mb-2">Welcome to MCEME CTW Dashboard</h2>
+              <h2 className="text-2xl font-bold text-primary mb-2">MCEME CTW Course Management</h2>
               <p className="text-muted-foreground">
-                Manage training operations, assessments, and Officer Cadet development efficiently.
+                Manage training courses, assessments, and Officer Cadet development efficiently.
               </p>
               <div className="mt-4 flex gap-2">
                 <Badge variant="secondary">Training Management</Badge>
                 <Badge variant="secondary">Assessment Tools</Badge>
                 <Badge variant="secondary">Reporting System</Badge>
+                <Badge variant="outline">Overall Progress: {overallProgress}%</Badge>
               </div>
             </div>
 
@@ -187,24 +258,42 @@ const Index = () => {
               <TabsContent value="overview" className="space-y-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-foreground">Course Sections</h2>
-                  <Button variant="outline">
-                    Export Report
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button variant="outline">
+                      Export Report
+                    </Button>
+                    <Button onClick={handleAddCourse} className="flex items-center gap-2">
+                      <Plus className="h-4 w-4" />
+                      Add Course
+                    </Button>
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {courseSections.map((section, index) => (
+                  {filteredCourses.map((course) => (
                     <CourseCard
-                      key={index}
-                      title={section.title}
-                      pageRange={section.pageRange}
-                      progress={section.progress}
-                      status={section.status}
-                      description={section.description}
-                      onClick={() => setSelectedSection(section.title)}
+                      key={course.id}
+                      course={course}
+                      onView={handleViewCourse}
+                      onEdit={handleEditCourse}
+                      onDelete={handleDeleteCourse}
                     />
                   ))}
                 </div>
+
+                {filteredCourses.length === 0 && (
+                  <div className="text-center py-12">
+                    <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-semibold text-foreground mb-2">No courses found</h3>
+                    <p className="text-muted-foreground mb-4">
+                      {searchQuery ? "No courses match your search criteria." : "No courses available yet."}
+                    </p>
+                    <Button onClick={handleAddCourse}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Your First Course
+                    </Button>
+                  </div>
+                )}
               </TabsContent>
 
               <TabsContent value="progress" className="space-y-6">
@@ -212,6 +301,7 @@ const Index = () => {
                   <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">Progress Analytics</h3>
                   <p className="text-muted-foreground">Detailed progress tracking and analytics will be available here.</p>
+                  <p className="text-sm text-muted-foreground mt-2">Overall Progress: {overallProgress}%</p>
                 </div>
               </TabsContent>
 
@@ -234,8 +324,51 @@ const Index = () => {
           </main>
         </div>
       </div>
+
+      {/* Course Form Modal */}
+      <CourseFormModal
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+        onSave={handleSaveCourse}
+        course={selectedCourse}
+        mode={formMode}
+      />
+
+      {/* View Course Dialog */}
+      <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogHeader>
+            <DialogTitle>{selectedCourse?.title}</DialogTitle>
+            <DialogDescription>
+              Course details and information
+            </DialogDescription>
+          </DialogHeader>
+          {selectedCourse && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Page Range</label>
+                  <p className="text-sm">{selectedCourse.pageRange}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Status</label>
+                  <p className="text-sm capitalize">{selectedCourse.status.replace('-', ' ')}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Progress</label>
+                  <p className="text-sm">{selectedCourse.progress}%</p>
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-muted-foreground">Description</label>
+                <p className="text-sm mt-1">{selectedCourse.description}</p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
 };
 
-export default Index;
+export default CoursePage;
