@@ -9,22 +9,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Course } from "./CourseCard";
 
 interface CourseFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (course: Omit<Course, 'id'>) => void;
+  onSave: (course: Omit<Course, "id">) => void;
   course?: Course | null;
-  mode: 'add' | 'edit';
+  mode: "add" | "edit";
 }
 
 export const CourseFormModal = ({
@@ -32,32 +24,29 @@ export const CourseFormModal = ({
   onClose,
   onSave,
   course,
-  mode
+  mode,
 }: CourseFormModalProps) => {
-  const [formData, setFormData] = useState({
-    title: '',
-    pageRange: '',
-    progress: 0,
-    status: 'pending' as Course['status'],
-    description: ''
+  const [formData, setFormData] = useState<Omit<Course, "id">>({
+    courseNo: "",
+    startDate: "",
+    endDate: "",
+    trgModel: 0,
   });
 
   useEffect(() => {
-    if (course && mode === 'edit') {
+    if (course && mode === "edit") {
       setFormData({
-        title: course.title,
-        pageRange: course.pageRange,
-        progress: course.progress,
-        status: course.status,
-        description: course.description
+        courseNo: course.courseNo,
+        startDate: course.startDate,
+        endDate: course.endDate,
+        trgModel: course.trgModel,
       });
     } else {
       setFormData({
-        title: '',
-        pageRange: '',
-        progress: 0,
-        status: 'pending',
-        description: ''
+        courseNo: "",
+        startDate: "",
+        endDate: "",
+        trgModel: 0,
       });
     }
   }, [course, mode, isOpen]);
@@ -71,11 +60,10 @@ export const CourseFormModal = ({
   const handleClose = () => {
     onClose();
     setFormData({
-      title: '',
-      pageRange: '',
-      progress: 0,
-      status: 'pending',
-      description: ''
+      courseNo: "",
+      startDate: "",
+      endDate: "",
+      trgModel: 0,
     });
   };
 
@@ -84,72 +72,62 @@ export const CourseFormModal = ({
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
           <DialogTitle>
-            {mode === 'add' ? 'Add New Course' : 'Edit Course'}
+            {mode === "add" ? "Add New Course" : "Edit Course"}
           </DialogTitle>
         </DialogHeader>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Course Title</Label>
+            <Label htmlFor="courseNo">Course Number</Label>
             <Input
-              id="title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Enter course title"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="pageRange">Page Range</Label>
-            <Input
-              id="pageRange"
-              value={formData.pageRange}
-              onChange={(e) => setFormData({ ...formData, pageRange: e.target.value })}
-              placeholder="e.g., 5-6 or 10"
+              id="courseNo"
+              value={formData.courseNo}
+              onChange={(e) =>
+                setFormData({ ...formData, courseNo: e.target.value })
+              }
+              placeholder="e.g., TES-43"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="progress">Progress (%)</Label>
+              <Label htmlFor="startDate">Start Date</Label>
               <Input
-                id="progress"
-                type="number"
-                min="0"
-                max="100"
-                value={formData.progress}
-                onChange={(e) => setFormData({ ...formData, progress: parseInt(e.target.value) || 0 })}
-                placeholder="0"
+                id="startDate"
+                type="date"
+                value={formData.startDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, startDate: e.target.value })
+                }
+                required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select
-                value={formData.status}
-                onValueChange={(value: Course['status']) => setFormData({ ...formData, status: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="in-progress">In Progress</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="endDate">End Date</Label>
+              <Input
+                id="endDate"
+                type="date"
+                value={formData.endDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, endDate: e.target.value })
+                }
+                required
+              />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Enter course description"
-              rows={3}
+            <Label htmlFor="trgModel">Training Model</Label>
+            <Input
+              id="trgModel"
+              type="number"
+              value={formData.trgModel}
+              onChange={(e) =>
+                setFormData({ ...formData, trgModel: Number(e.target.value) })
+              }
+              placeholder="Enter training model"
               required
             />
           </div>
@@ -159,7 +137,7 @@ export const CourseFormModal = ({
               Cancel
             </Button>
             <Button type="submit">
-              {mode === 'add' ? 'Add Course' : 'Update Course'}
+              {mode === "add" ? "Add Course" : "Update Course"}
             </Button>
           </DialogFooter>
         </form>

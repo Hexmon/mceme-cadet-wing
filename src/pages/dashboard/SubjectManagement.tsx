@@ -25,20 +25,38 @@ const Index = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [subjects, setSubjects] = useState<Subject[]>(initialSubjects);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [editingSubject, setEditingSubject] = useState<Subject | null>(null);
 
     const handleLogout = () => {
         console.log("Logout clicked");
     };
 
     const handleAddSubject = (newSubject: Omit<Subject, "id">) => {
-        const id = Date.now().toString();
-        setSubjects(prev => [...prev, { ...newSubject, id }]);
+        if (editingSubject) {
+            // Update existing subject
+            setSubjects(prev =>
+                prev.map(subject =>
+                    subject.id === editingSubject.id
+                        ? { ...subject, ...newSubject }
+                        : subject
+                )
+            );
+            setEditingSubject(null);
+        } else {
+            // Add new subject
+            const id = Date.now().toString();
+            setSubjects(prev => [...prev, { ...newSubject, id }]);
+        }
     };
 
     const handleEditSubject = (id: string) => {
-        console.log("Edit subject:", id);
-        // The actual editing is handled in the SubjectEditDialog
+        const subject = subjects.find(s => s.id === id);
+        if (subject) {
+            setEditingSubject(subject);
+            setIsAddDialogOpen(true);
+        }
     };
+
 
     const handleDeleteSubject = (id: string) => {
         setSubjects(prev => prev.filter(subject => subject.id !== id));
@@ -48,6 +66,11 @@ const Index = () => {
         subject.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         subject.code.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const getSemesterSubjects = (semester: string) => {
+        return filteredSubjects.filter(subject => subject.semNo === semester);
+    };
+
 
     return (
         <SidebarProvider>
@@ -130,30 +153,39 @@ const Index = () => {
                                 </ol>
                             </nav>
                         </div>
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-bold text-primary mb-2">MCEME CTW Subject Management</h2>
+                            <p className="text-muted-foreground">
+                                Organize and monitor academic and training subjects to support structured learning and cadet performance.
+                            </p>
+                        </div>
+
 
                         {/* Tabs */}
                         <Tabs defaultValue="subjects" className="space-y-6">
-                            <TabsList className="grid w-full grid-cols-3">
+                            <TabsList className="grid w-full grid-cols-4">
                                 <TabsTrigger value="subjects" className="flex items-center gap-2">
                                     <Book className="h-4 w-4" />
                                     Subjects
                                 </TabsTrigger>
-                                <TabsTrigger value="assignments" className="flex items-center gap-2">
-                                    <ListChecks className="h-4 w-4" />
-                                    Instructor Assignments
-                                </TabsTrigger>
-                                <TabsTrigger value="settings" className="flex items-center gap-2">
-                                    <Settings className="h-4 w-4" />
-                                    Settings
-                                </TabsTrigger>
+                                <Link to="/dashboard/ocmgmt" className="text-center hover:text-primary">
+                                    <TabsTrigger value="oc-mgmt">OC Management</TabsTrigger>
+                                </Link>
+                                <Link to="/dashboard/coursemgmt" className="text-center hover:text-primary">
+                                    <TabsTrigger value="course-mgmt">Course Management</TabsTrigger>
+                                </Link>
+                                <Link to="/dashboard/usersmgmt" className="text-center hover:text-primary">
+                                    <TabsTrigger value="user-mgmt">User Management</TabsTrigger>
+                                </Link>
                             </TabsList>
 
                             {/* Subject List */}
                             <TabsContent value="subjects" className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
-                                    <Button 
-                                        variant="outline" 
+
+                                    <Button
+                                        variant="outline"
                                         onClick={() => setIsAddDialogOpen(true)}
                                         className="flex items-center gap-2"
                                     >
@@ -161,30 +193,348 @@ const Index = () => {
                                         Add Subject
                                     </Button>
                                 </div>
+                                <TabsList className="grid w-full grid-cols-6">
+                                    <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                        Semester I
+                                    </TabsTrigger>
+                                    <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                        Semester II
+                                    </TabsTrigger>
+                                    <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                        Semester III
+                                    </TabsTrigger>
+                                    <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                        Semester IV
+                                    </TabsTrigger>
+                                    <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                        Semester V
+                                    </TabsTrigger>
+                                    <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                        Semester VI
+                                    </TabsTrigger>
+                                </TabsList>
+
+                            </TabsContent>
+
+                            {/* Semester Wise Subjects */}
+                            <TabsContent value="semester-i" className="space-y-6">
+                                {/* Subject List */}
+                                <TabsContent value="semester-i" className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
+
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsAddDialogOpen(true)}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add Subject
+                                        </Button>
+                                    </div>
+                                    <TabsList className="grid w-full grid-cols-6">
+                                        <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                            Semester I
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                            Semester II
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                            Semester III
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                            Semester IV
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                            Semester V
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                            Semester VI
+                                        </TabsTrigger>
+                                    </TabsList>
+
+                                </TabsContent>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {filteredSubjects.map((subject) => (
+                                    {getSemesterSubjects("I").map((subject) => (
                                         <SubjectCard
                                             key={subject.id}
                                             id={subject.id}
                                             name={subject.name}
                                             code={subject.code}
-                                            instructor={subject.instructor}
-                                            semester={subject.semester}
-                                            coverage={subject.coverage}
-                                            status={subject.status}
+                                            credits={subject.credits}
+                                            subjectType={subject.subjectType}
+                                            theoryPractical={subject.theoryPractical}
                                             onEdit={handleEditSubject}
                                             onDelete={handleDeleteSubject}
                                         />
                                     ))}
                                 </div>
                             </TabsContent>
+                            <TabsContent value="semester-ii" className="space-y-6">
+                                {/* Subject List */}
+                                <TabsContent value="semester-ii" className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
 
-                            {/* Instructor Assignments */}
-                            <TabsContent value="assignments" className="space-y-6">
-                                <div className="text-center py-12">
-                                    <ListChecks className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">Instructor Assignments</h3>
-                                    <p className="text-muted-foreground">Manage instructor-subject assignments here.</p>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsAddDialogOpen(true)}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add Subject
+                                        </Button>
+                                    </div>
+                                    <TabsList className="grid w-full grid-cols-6">
+                                        <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                            Semester I
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                            Semester II
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                            Semester III
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                            Semester IV
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                            Semester V
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                            Semester VI
+                                        </TabsTrigger>
+                                    </TabsList>
+
+                                </TabsContent>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {getSemesterSubjects("II").map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            code={subject.code}
+                                            credits={subject.credits}
+                                            subjectType={subject.subjectType}
+                                            theoryPractical={subject.theoryPractical}
+                                            onEdit={handleEditSubject}
+                                            onDelete={handleDeleteSubject}
+                                        />
+                                    ))}
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="semester-iii" className="space-y-6">
+                                {/* Subject List */}
+                                <TabsContent value="semester-iii" className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
+
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsAddDialogOpen(true)}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add Subject
+                                        </Button>
+                                    </div>
+                                    <TabsList className="grid w-full grid-cols-6">
+                                        <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                            Semester I
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                            Semester II
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                            Semester III
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                            Semester IV
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                            Semester V
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                            Semester VI
+                                        </TabsTrigger>
+                                    </TabsList>
+
+                                </TabsContent>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {getSemesterSubjects("III").map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            code={subject.code}
+                                            credits={subject.credits}
+                                            subjectType={subject.subjectType}
+                                            theoryPractical={subject.theoryPractical}
+                                            onEdit={handleEditSubject}
+                                            onDelete={handleDeleteSubject}
+                                        />
+                                    ))}
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="semester-iv" className="space-y-6">
+                                {/* Subject List */}
+                                <TabsContent value="semester-iv" className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
+
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsAddDialogOpen(true)}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add Subject
+                                        </Button>
+                                    </div>
+                                    <TabsList className="grid w-full grid-cols-6">
+                                        <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                            Semester I
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                            Semester II
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                            Semester III
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                            Semester IV
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                            Semester V
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                            Semester VI
+                                        </TabsTrigger>
+                                    </TabsList>
+
+                                </TabsContent>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {getSemesterSubjects("IV").map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            code={subject.code}
+                                            credits={subject.credits}
+                                            subjectType={subject.subjectType}
+                                            theoryPractical={subject.theoryPractical}
+                                            onEdit={handleEditSubject}
+                                            onDelete={handleDeleteSubject}
+                                        />
+                                    ))}
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="semester-v" className="space-y-6">
+                                {/* Subject List */}
+                                <TabsContent value="semester-v" className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
+
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsAddDialogOpen(true)}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add Subject
+                                        </Button>
+                                    </div>
+                                    <TabsList className="grid w-full grid-cols-6">
+                                        <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                            Semester I
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                            Semester II
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                            Semester III
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                            Semester IV
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                            Semester V
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                            Semester VI
+                                        </TabsTrigger>
+                                    </TabsList>
+
+                                </TabsContent>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {getSemesterSubjects("V").map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            code={subject.code}
+                                            credits={subject.credits}
+                                            subjectType={subject.subjectType}
+                                            theoryPractical={subject.theoryPractical}
+                                            onEdit={handleEditSubject}
+                                            onDelete={handleDeleteSubject}
+                                        />
+                                    ))}
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="semester-vi" className="space-y-6">
+                                {/* Subject List */}
+                                <TabsContent value="semester-vi" className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-2xl font-bold text-foreground">Subject List</h2>
+
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsAddDialogOpen(true)}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add Subject
+                                        </Button>
+                                    </div>
+                                    <TabsList className="grid w-full grid-cols-6">
+                                        <TabsTrigger value="semester-i" className="flex items-center gap-2">
+                                            Semester I
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-ii" className="flex items-center gap-2">
+                                            Semester II
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iii" className="flex items-center gap-2">
+                                            Semester III
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-iv" className="flex items-center gap-2">
+                                            Semester IV
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-v" className="flex items-center gap-2">
+                                            Semester V
+                                        </TabsTrigger>
+                                        <TabsTrigger value="semester-vi" className="flex items-center gap-2">
+                                            Semester VI
+                                        </TabsTrigger>
+                                    </TabsList>
+
+                                </TabsContent>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {getSemesterSubjects("VI").map((subject) => (
+                                        <SubjectCard
+                                            key={subject.id}
+                                            id={subject.id}
+                                            name={subject.name}
+                                            code={subject.code}
+                                            credits={subject.credits}
+                                            subjectType={subject.subjectType}
+                                            theoryPractical={subject.theoryPractical}
+                                            onEdit={handleEditSubject}
+                                            onDelete={handleDeleteSubject}
+                                        />
+                                    ))}
                                 </div>
                             </TabsContent>
 
@@ -203,9 +553,14 @@ const Index = () => {
 
             <AddSubjectDialog
                 isOpen={isAddDialogOpen}
-                onOpenChange={setIsAddDialogOpen}
+                onOpenChange={(open) => {
+                    setIsAddDialogOpen(open);
+                    if (!open) setEditingSubject(null); // reset when closed
+                }}
                 onAdd={handleAddSubject}
+                subject={editingSubject ?? undefined}
             />
+
         </SidebarProvider>
     );
 };

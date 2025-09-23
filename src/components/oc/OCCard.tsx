@@ -4,14 +4,13 @@ import { Users, ShieldAlert, Ban, UserCheck } from "lucide-react";
 
 interface OCCardProps {
   name: string;
-  email: string;
   term: string;
   platoon: string;
   status: "active" | "suspended" | "disabled";
   onClick?: () => void;
 }
 
-export const OCCard = ({ name, email, term, platoon, status, onClick }: OCCardProps) => {
+export const OCCard = ({ name, term, platoon, status, onClick, children }: OCCardProps & { children?: React.ReactNode }) => {
   const getStatusIcon = () => {
     switch (status) {
       case "active":
@@ -49,14 +48,15 @@ export const OCCard = ({ name, email, term, platoon, status, onClick }: OCCardPr
           </div>
           {getStatusBadge()}
         </div>
-        <div className="flex justify-between text-sm mt-2 text-muted-foreground">
-          <span>{email}</span>
-        </div>
       </CardHeader>
       <CardContent className="pt-0 space-y-1">
         <p className="text-sm text-muted-foreground">Term: {term}</p>
         <p className="text-sm text-muted-foreground">Platoon: {platoon}</p>
       </CardContent>
+
+      {/* children will be rendered here */}
+      {children && <div className="flex gap-2 mt-4 px-4 pb-3">{children}</div>}
+
     </Card>
   );
 };

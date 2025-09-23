@@ -2,47 +2,35 @@ import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Pencil, Trash2, User, BookOpen } from "lucide-react";
-import { SubjectEditDialog } from "./SubjectEditDialog";
+import { Pencil, Trash2, BookOpen, Layers, GraduationCap } from "lucide-react";
+import { AddSubjectDialog } from "./AddSubjectDialog";
 
 interface SubjectCardProps {
   id?: string;
-  name: string;
-  code: string;
-  instructor: string;
-  semester: string;
-  coverage: number;
-  status: "pending" | "in-progress" | "completed";
-  onEdit?: (id: string) => void;
+  trgModel?: string;
+  semNo?: string;
+  code?: string;
+  name?: string;
+  subjectType?: string;
+  theoryPractical?: string;
+  credits?: number;
+  onEdit?: (id: string, updatedSubject: Omit<SubjectCardProps, "onEdit" | "onDelete">) => void;
   onDelete?: (id: string) => void;
 }
 
 export function SubjectCard({
   id = "",
-  name,
+  trgModel,
+  semNo,
   code,
-  instructor,
-  semester,
-  coverage,
-  status,
+  name,
+  subjectType,
+  theoryPractical,
+  credits,
   onEdit,
-  onDelete
+  onDelete,
 }: SubjectCardProps) {
   const [isEditOpen, setIsEditOpen] = useState(false);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "in-progress":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
-    }
-  };
 
   const handleEdit = () => {
     setIsEditOpen(true);
@@ -52,6 +40,13 @@ export function SubjectCard({
     if (onDelete && id) {
       onDelete(id);
     }
+  };
+
+  const handleSave = (updatedSubject: Omit<SubjectCardProps, "onEdit" | "onDelete">) => {
+    if (onEdit && id) {
+      onEdit(id, updatedSubject);
+    }
+    setIsEditOpen(false);
   };
 
   return (
@@ -64,31 +59,24 @@ export function SubjectCard({
               <h3 className="font-semibold text-lg leading-tight">{name}</h3>
               <p className="text-sm text-muted-foreground font-mono">{code}</p>
             </div>
-            <Badge className={getStatusColor(status)} variant="secondary">
-              {status.replace("-", " ")}
-            </Badge>
+            <Badge variant="secondary">{subjectType}</Badge>
           </div>
         </CardHeader>
 
         <CardContent className="flex-1 space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm">
-              <User className="h-4 w-4 text-muted-foreground" />
-              <span>{instructor}</span>
+          <div className="space-y-3 text-sm">
+            <div className="flex items-center gap-2">
+              <Layers className="h-4 w-4 text-muted-foreground" />
+              <span>Branch: {subjectType}</span>
             </div>
-            
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2">
               <BookOpen className="h-4 w-4 text-muted-foreground" />
-              <span>{semester}</span>
+              <span>Type: {theoryPractical}</span>
             </div>
           </div>
 
           <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Coverage</span>
-              <span className="font-medium">{coverage}%</span>
-            </div>
-            <Progress value={coverage} className="h-2" />
+            <span className="text-muted-foreground text-sm">Credits: {credits}</span>
           </div>
         </CardContent>
 
@@ -113,11 +101,20 @@ export function SubjectCard({
         </CardFooter>
       </Card>
 
-      <SubjectEditDialog
+      {/* Reuse AddSubjectDialog for editing */}
+      <AddSubjectDialog
         isOpen={isEditOpen}
         onOpenChange={setIsEditOpen}
-        subject={{ id, name, code, instructor, semester, coverage, status }}
-        onSave={onEdit}
+        subject={{
+          trgModel: trgModel ?? "",
+          semNo: semNo ?? "",
+          code: code ?? "",
+          name: name ?? "",
+          subjectType: subjectType ?? "Common",
+          theoryPractical: theoryPractical ?? "Theory",
+          credits: credits ?? 0,
+        }}
+        onAdd={handleSave}
       />
     </>
   );

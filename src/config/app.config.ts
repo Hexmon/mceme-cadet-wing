@@ -1,13 +1,12 @@
-import { Medal, Star, Award } from "lucide-react";
-import {
-  FileText,
-  BookOpen,
-  Users,
-  UserCheck,
-  Settings,
-  Shield,
-  HelpCircle
+import { 
+  Medal, Star, Award, ClipboardList, AlertCircle, MessageSquare, Footprints, 
+  Calendar, BookMarked, Tent, Timer, Mountain, Target, Dumbbell, Phone, 
+  ShieldAlert, HeartPulse, FileSearch, User, ClipboardCheck, FileText, 
+  BookOpen, Users, UserCheck, Settings, Shield, HelpCircle, 
+  LucideIcon,
+  Ban
 } from "lucide-react";
+
 
 export const CommandersData = [
   {
@@ -166,64 +165,249 @@ export const historydata = [
   { id: 6, year: "2020", event: "Integration of AI and advanced technology in military training" }
 ]
 
+
 export const dashboardCards = [
   {
-    title: "Report Management",
-    description: "Generate and manage training reports",
-    icon: FileText,
-    to: "/dashboard/reports",
+    title: "General Management",
+    description: "Oversee overall administration and workflows",
+    icon: ClipboardList,
+    to: "/dashboard/genmgmt",
     color: "bg-blue-500"
   },
   {
-    title: "Course Management",
-    description: "Manage academic courses and curricula",
-    icon: BookOpen,
-    to: "/dashboard/courses",
+    title: "Military Training",
+    description: "Plan, track, and monitor military training activities",
+    icon: Shield,
+    to: "/dashboard/milmgmt",
+    color: "bg-blue-500"
+  },
+  {
+    title: "Assessment",
+    description: "Conduct, manage, and review assessments",
+    icon: FileText,
+    to: "",
     color: "bg-green-500"
   },
   {
-    title: "Subject Management",
-    description: "Handle individual subjects and topics",
+    title: "Academics",
+    description: "Manage academic subjects, topics, and study material",
     icon: BookOpen,
-    to: "/dashboard/subjects",
+    to: "",
     color: "bg-purple-500"
   },
   {
-    title: "Instructor Management",
-    description: "Manage teaching staff and assignments",
+    title: "Interview",
+    description: "Schedule and manage candidate interviews",
     icon: UserCheck,
-    to: "/dashboard/instructors",
+    to: "",
     color: "bg-orange-500"
   },
-  {
-    title: "User Management",
-    description: "Handle user accounts and permissions",
-    icon: Users,
-    to: "/dashboard/users",
-    color: "bg-red-500"
-  },
+  // {
+  //   title: "User Management",
+  //   description: "Handle user accounts and permissions",
+  //   icon: Users,
+  //   to: "/dashboard/users",
+  //   color: "bg-red-500"
+  // },
   {
     title: "Site Settings",
-    description: "Configure system settings",
+    description: "Update system preferences and configurations",
     icon: Settings,
     to: "/dashboard/settings",
     color: "bg-gray-500"
   },
   {
     title: "Appointment Management",
-    description: "Manage roles and appointments",
-    icon: Shield,
+    description: "Assign and manage official appointments and roles",
+    icon: Users,
     to: "/dashboard/appointments",
     color: "bg-indigo-500"
   },
   {
     title: "Help / How-To",
-    description: "Get help using the dashboard",
+    description: "Guides, FAQs, and support resources",
     icon: HelpCircle,
     to: "/dashboard/help",
     color: "bg-teal-500"
   }
-]
+];
+
+
+export const managementCard = [
+  {
+    title: "OC Management",
+    description: "Manage Officer Cadets and their records",
+    icon: UserCheck,
+    to: "/dashboard/ocmgmt",
+    color: "bg-orange-500 "
+  },
+  {
+    title: "Course Management",
+    description: "Create, update, and track training courses",
+    icon: BookOpen,
+    to: "/dashboard/coursemgmt",
+    color: "bg-purple-500"
+  },
+  {
+    title: "Subject Management",
+    description: "Organize and maintain subjects within courses",
+    icon: BookOpen,
+    to: "/dashboard/subjectmgmt",
+    color: "bg-blue-500"
+  },
+  {
+    title: "User Management",
+    description: "Manage user roles, permissions, and profiles",
+    icon: Users,
+    to: "/dashboard/usersmgmt",
+    color: "bg-red-500"
+  },
+  // {
+  //   title: "Settings Management",
+  //   description: "Configure application preferences and settings",
+  //   icon: Settings,
+  //   to: "/dashboard/genmgmt",
+  //   color: "bg-gray-500"
+  // }
+
+];
+type TrainingCard = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  to: string;
+  color: string;
+};
+
+export const militaryTrainingCards: TrainingCard[] = [
+  // {
+  //   title: "Dossier Filling",
+  //   description: "Maintain detailed dossier filling records",
+  //   icon: FileText,
+  //   to: "/dashboard/dossier-filling",
+  //   color: "bg-green-600"
+  // },
+  {
+    title: "Dossier Inspection",
+    description: "Track and review dossier inspection sheets",
+    icon: ClipboardCheck,
+    to: "/dashboard/dossier-insp",
+    color: "bg-blue-600"
+  },
+  {
+    title: "Personal Particulars",
+    description: "Record and manage cadet personal particulars",
+    icon: User,
+    to: "/dashboard/pers-particulars",
+    color: "bg-indigo-600"
+  },
+  {
+    title: "Background Details",
+    description: "Capture cadet family and background information",
+    icon: FileSearch,
+    to: "/dashboard/background-detls",
+    color: "bg-cyan-600"
+  },
+  {
+    title: "Medical Records",
+    description: "Manage cadet health and medical documentation",
+    icon: HeartPulse,
+    to: "/dashboard/med-record",
+    color: "bg-red-600"
+  },
+  {
+    title: "Discipline Records",
+    description: "Log disciplinary actions and observations",
+    icon: ShieldAlert,
+    to: "/dashboard/discip-records",
+    color: "bg-yellow-600"
+  },
+  {
+    title: "Parent Communication",
+    description: "Record communication with parents and guardians",
+    icon: Phone,
+    to: "/dashboard/comn-parents",
+    color: "bg-teal-600"
+  },
+  {
+    title: "PT & Swimming Tests",
+    description: "Track cadet PT and swimming test performance",
+    icon: Dumbbell,
+    to: "/dashboard/pt-swimming",
+    color: "bg-orange-600"
+  },
+  {
+    title: "Weapon Training",
+    description: "Record weapon training performance",
+    icon: Target,
+    to: "/dashboard/wpn-trg",
+    color: "bg-gray-700"
+  },
+  {
+    title: "Obstacle Training",
+    description: "Maintain obstacle course training records",
+    icon: Mountain,
+    to: "/dashboard/obstacle-trg",
+    color: "bg-pink-600"
+  },
+  {
+    title: "Speed March / Runs",
+    description: "Track cadet march and run-back timings",
+    icon: Timer,
+    to: "/dashboard/speed-march",
+    color: "bg-purple-600"
+  },
+  {
+    title: "Camps",
+    description: "Maintain participation and performance in camps",
+    icon: Tent,
+    to: "/dashboard/camps",
+    color: "bg-green-700"
+  },
+  {
+    title: "Club Details",
+    description: "Record cadet participation in clubs and activities",
+    icon: BookMarked,
+    to: "/dashboard/club-detls",
+    color: "bg-blue-700"
+  },
+  {
+    title: "Leave Records",
+    description: "Manage and track cadet leave history",
+    icon: Calendar,
+    to: "/dashboard/leave-record",
+    color: "bg-indigo-700"
+  },
+  {
+    title: "Hikes",
+    description: "Track participation and performance in hikes",
+    icon: Footprints,
+    to: "/dashboard/hikes",
+    color: "bg-emerald-600"
+  },
+  {
+    title: "Detention",
+    description: "Record and manage detention instances",
+    icon: Ban,
+    to: "/dashboard/detention",
+    color: "bg-red-700"
+  },
+  {
+    title: "Counselling",
+    description: "Document cadet counselling sessions",
+    icon: MessageSquare,
+    to: "/dashboard/counselling",
+    color: "bg-yellow-700"
+  },
+  {
+    title: "Warning Records",
+    description: "Track formal warnings and remarks",
+    icon: AlertCircle,
+    to: "/dashboard/warning-records",
+    color: "bg-orange-700"
+  }
+];
+
 
 export const scheduledata = [
   { day: "Monday", activity: "Physical Training & Parade", time: "0600-0800", type: "PT" },
@@ -351,16 +535,21 @@ export const activities = [
 ]
 
 export interface Subject {
-  id: string;
-  name: string;
-  code: string;
-  instructor: string;
-  semester: string;
-  coverage: number;
-  status: "pending" | "in-progress" | "completed";
+  id?: string;
+  name?: string;
+  code?: string;
+  instructor?: string;
+  semester?: string;
+  semNo?: string;
+  trgModel?: string;
+  subjectType?: string;
+  theoryPractical?: string;
+  credits?: number;
+  coverage?: number;
   theory?: ExamDetails;
   practical?: ExamDetails;
 }
+
 
 export interface ExamDetails {
   credit: number;
@@ -375,39 +564,365 @@ export interface ExamDetails {
 }
 
 export const subjects: Subject[] = [
+  // Semester I
+  {
+    id: "27",
+    name: "ENGINEERING MATHS I",
+    code: "MATH101",
+    semNo: "I",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 4,
+  },
+  {
+    id: "28",
+    name: "BASIC MECHANICAL ENGINEERING",
+    code: "ME101",
+    semNo: "I",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "29",
+    name: "BASIC MECHANICAL ENGINEERING",
+    code: "ME101P",
+    semNo: "I",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "30",
+    name: "ENVIRONMENTAL SCIENCE",
+    code: "EVS101",
+    semNo: "I",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 2,
+  },
+
+  // Semester II
   {
     id: "1",
-    name: "Mathematics",
-    code: "MATH101",
-    instructor: "Dr. Smith",
-    semester: "Fall 2024",
-    coverage: 85,
-    status: "in-progress"
+    name: "ENGINEERING MATHS II",
+    code: "MATH102",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 4,
   },
   {
     id: "2",
-    name: "Physics",
-    code: "PHY201",
-    instructor: "Prof. Johnson",
-    semester: "Fall 2024",
-    coverage: 72,
-    status: "pending"
+    name: "ENGINEERING PHYSICS",
+    code: "PHY202",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
   },
   {
     id: "3",
-    name: "Chemistry",
-    code: "CHEM101",
-    instructor: "Dr. Williams",
-    semester: "Fall 2024",
-    coverage: 95,
-    status: "completed"
-  }
+    name: "ENGINEERING PHYSICS",
+    code: "PHY202P",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "4",
+    name: "COMPUTER ORG AND PROG CONCEPTS",
+    code: "CS201",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "5",
+    name: "COMPUTER ORG AND PROG CONCEPTS",
+    code: "CS201P",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "6",
+    name: "ELECTRICAL TECHNOLOGY",
+    code: "EE201",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "7",
+    name: "ELECTRICAL TECHNOLOGY",
+    code: "EE201P",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "8",
+    name: "BASIC ELECTRONICS",
+    code: "EC201",
+    semNo: "II",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+
+  // Semester III
+  {
+    id: "9",
+    name: "ELECTRICAL MACHINES I",
+    code: "EE301",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "10",
+    name: "ELECTRICAL MACHINES I",
+    code: "EE301P",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "11",
+    name: "WORKSHOP PRACTICE",
+    code: "WS301",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 1,
+  },
+  {
+    id: "12",
+    name: "WORKSHOP PRACTICE",
+    code: "WS301P",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 2,
+  },
+  {
+    id: "13",
+    name: "THERMODYNAMICS",
+    code: "ME301",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 4,
+  },
+  {
+    id: "14",
+    name: "POLLUTION AND RENEWABLE ENERGY SOURCES",
+    code: "EN301",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "15",
+    name: "MILITARY ART III",
+    code: "MA301",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 1,
+  },
+  {
+    id: "16",
+    name: "NSA-II",
+    code: "NSA201",
+    semNo: "III",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "17",
+    name: "STRENGTH OF MATERIALS",
+    code: "CE301",
+    semNo: "III",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+
+  // Semester IV
+  {
+    id: "31",
+    name: "CONTROL SYSTEMS",
+    code: "EE401",
+    semNo: "IV",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 4,
+  },
+  {
+    id: "32",
+    name: "CONTROL SYSTEMS",
+    code: "EE401P",
+    semNo: "IV",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "33",
+    name: "ENGINEERING MATERIALS",
+    code: "ME401",
+    semNo: "IV",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "34",
+    name: "MANUFACTURING TECHNOLOGY",
+    code: "ME402",
+    semNo: "IV",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+
+  // Semester V
+  {
+    id: "35",
+    name: "INTERNAL COMBUSTION ENGINES",
+    code: "ME501",
+    semNo: "V",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "36",
+    name: "DESIGN OF MACHINE ELEMENTS",
+    code: "ME502",
+    semNo: "V",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "37",
+    name: "HEAT AND MASS TRANSFER",
+    code: "ME503",
+    semNo: "V",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 4,
+  },
+  {
+    id: "38",
+    name: "MECHANICAL VIBRATIONS",
+    code: "ME504",
+    semNo: "V",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+
+  // Semester VI
+  {
+    id: "18",
+    name: "MILITARY ART VI",
+    code: "MA601",
+    semNo: "VI",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 1,
+  },
+  {
+    id: "19",
+    name: "MILITARY ART VI",
+    code: "MA601P",
+    semNo: "VI",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "20",
+    name: "NSA VI",
+    code: "NSA601",
+    semNo: "VI",
+    subjectType: "Common",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "21",
+    name: "MACHINE DESIGN I",
+    code: "ME601",
+    semNo: "VI",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "22",
+    name: "THERMAL ENGINEERING",
+    code: "ME602",
+    semNo: "VI",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "23",
+    name: "THERMAL ENGINEERING",
+    code: "ME602P",
+    semNo: "VI",
+    subjectType: "Mechanical",
+    theoryPractical: "Practical",
+    credits: 1,
+  },
+  {
+    id: "24",
+    name: "FINITE ELEMENT METHOD",
+    code: "ME603",
+    semNo: "VI",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "25",
+    name: "AUTOMATION IN MANUFACTURING",
+    code: "ME604",
+    semNo: "VI",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 3,
+  },
+  {
+    id: "26",
+    name: "NON DESTRUCTIVE TESTING AND EVALUATION",
+    code: "ME605",
+    semNo: "VI",
+    subjectType: "Mechanical",
+    theoryPractical: "Theory",
+    credits: 4,
+  },
 ];
 
 export interface courseSections {
-  title?:string;
-  pageRange?:number;
-  progress?:number;
+  title?: string;
+  pageRange?: number;
+  progress?: number;
   status: "pending" | "in-progress" | "completed";
   description?: string;
 }
