@@ -7,7 +7,6 @@ import { CourseFormModal } from "@/components/courses/CourseFormModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
@@ -22,49 +21,29 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { FileText, BarChart3, Calendar, Settings, Search, User, LogOut, Plus } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
-const CoursePage = () => {
-const [courses, setCourses] = useState<Course[]>([
-  { id: "1", title: "Dossier Insp Sheet", pageRange: "5-6", progress: 100, status: "completed", description: "Initial inspection and verification documents" },
-  { id: "2", title: "Pers Particulars", pageRange: "7-10", progress: 90, status: "in-progress", description: "Personal details and background information" },
-  { id: "3", title: "SSB Report", pageRange: "11", progress: 75, status: "in-progress", description: "Services Selection Board assessment report" },
-  { id: "4", title: "Med Info", pageRange: "12-14", progress: 60, status: "in-progress", description: "Medical examination records and fitness reports" },
-  { id: "5", title: "Discp Record", pageRange: "15-16", progress: 0, status: "pending", description: "Disciplinary actions and conduct records" },
-  { id: "6", title: "Record of Comm with Parent/Guardian", pageRange: "17-22", progress: 0, status: "pending", description: "Communication logs with family members" },
-  { id: "7", title: "Acad", pageRange: "23-30", progress: 80, status: "in-progress", description: "Academic performance and course records" },
-  { id: "8", title: "Phy Trg", pageRange: "31-37", progress: 85, status: "in-progress", description: "Physical training assessments and progress" },
-  { id: "9", title: "Sports/Games & Motivation Awards", pageRange: "38-39", progress: 40, status: "in-progress", description: "Sports participation and achievement records" },
-  { id: "10", title: "Wpn Trg", pageRange: "40", progress: 20, status: "pending", description: "Weapons training and proficiency records" },
-  { id: "11", title: "Obstacle Trg", pageRange: "41", progress: 30, status: "pending", description: "Obstacle course training and performance" },
-  { id: "12", title: "Camps", pageRange: "42-44", progress: 0, status: "pending", description: "Training camp participation and reports" },
-  { id: "13", title: "Club & Drill", pageRange: "45", progress: 70, status: "in-progress", description: "Drill practice and club activities" },
-  { id: "14", title: "Credit For Excellence (CFE)", pageRange: "46-47", progress: 0, status: "pending", description: "Excellence credits and recognition" },
-  { id: "15", title: "OLQ", pageRange: "44-57", progress: 50, status: "in-progress", description: "Officer Like Qualities assessment" },
-  { id: "16", title: "Semester Performance Record", pageRange: "58-69", progress: 65, status: "in-progress", description: "Detailed semester-wise performance tracking" },
-  { id: "17", title: "Final Performance Record", pageRange: "70", progress: 0, status: "pending", description: "Final assessment and graduation records" },
-  { id: "18", title: "Overall Assessment (on Passing Out)", pageRange: "71-72", progress: 0, status: "pending", description: "Comprehensive final evaluation" },
-  { id: "19", title: "Record of Lve, Hike & Detention", pageRange: "73", progress: 10, status: "pending", description: "Leave, hiking, and detention records" },
-  { id: "20", title: "Interview Detls", pageRange: "74-102", progress: 0, status: "pending", description: "Interview schedules and feedback" },
-  { id: "21", title: "Counselling/Warning Record", pageRange: "103-104", progress: 0, status: "pending", description: "Counselling sessions and warnings issued" },
-  { id: "22", title: "Performance Graph", pageRange: "105-106", progress: 25, status: "pending", description: "Visual performance tracking and analytics" },
-  { id: "23", title: "Indl Course Report", pageRange: "107", progress: 0, status: "pending", description: "Individual course completion report" }
-]);
-
+const CourseManagement = () => {
+  const [courses, setCourses] = useState<Course[]>([
+    { id: "1", courseNo: "TES-43", startDate: "10-02-2024", endDate: "10-09-2025", trgModel: 0 },
+    { id: "2", courseNo: "TES-44", startDate: "03-01-2022", endDate: "14-12-2024", trgModel: 0 },
+    { id: "3", courseNo: "TES-45", startDate: "04-07-2022", endDate: "14-06-2025", trgModel: 0 },
+    { id: "4", courseNo: "TES-46", startDate: "02-01-2023", endDate: "11-12-2025", trgModel: 0 },
+    { id: "5", courseNo: "TES-47", startDate: "03-07-2023", endDate: "13-06-2026", trgModel: 0 },
+    { id: "6", courseNo: "TES-48", startDate: "01-01-2024", endDate: "12-12-2026", trgModel: 0 },
+    { id: "7", courseNo: "TES-49", startDate: "01-07-2024", endDate: "12-06-2027", trgModel: 0 },
+    { id: "8", courseNo: "TES-49A", startDate: "30-01-2025", endDate: "11-12-2027", trgModel: 0 },
+  ]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
+  const [formMode, setFormMode] = useState<"add" | "edit">("add");
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
 
   const handleLogout = () => {
-    console.log("Logout clicked");
     toast({
       title: "Logged out",
       description: "You have been successfully logged out.",
@@ -72,13 +51,13 @@ const [courses, setCourses] = useState<Course[]>([
   };
 
   const handleAddCourse = () => {
-    setFormMode('add');
+    setFormMode("add");
     setSelectedCourse(null);
     setIsFormModalOpen(true);
   };
 
   const handleEditCourse = (course: Course) => {
-    setFormMode('edit');
+    setFormMode("edit");
     setSelectedCourse(course);
     setIsFormModalOpen(true);
   };
@@ -89,7 +68,7 @@ const [courses, setCourses] = useState<Course[]>([
   };
 
   const handleDeleteCourse = (courseId: string) => {
-    setCourses(courses.filter(course => course.id !== courseId));
+    setCourses(courses.filter((course) => course.id !== courseId));
     toast({
       title: "Course deleted",
       description: "The course has been successfully deleted.",
@@ -97,8 +76,8 @@ const [courses, setCourses] = useState<Course[]>([
     });
   };
 
-  const handleSaveCourse = (courseData: Omit<Course, 'id'>) => {
-    if (formMode === 'add') {
+  const handleSaveCourse = (courseData: Omit<Course, "id">) => {
+    if (formMode === "add") {
       const newCourse: Course = {
         ...courseData,
         id: Date.now().toString(),
@@ -108,12 +87,12 @@ const [courses, setCourses] = useState<Course[]>([
         title: "Course added",
         description: "New course has been successfully added.",
       });
-    } else if (formMode === 'edit' && selectedCourse) {
-      setCourses(courses.map(course => 
-        course.id === selectedCourse.id 
-          ? { ...courseData, id: selectedCourse.id }
-          : course
-      ));
+    } else if (formMode === "edit" && selectedCourse) {
+      setCourses(
+        courses.map((course) =>
+          course.id === selectedCourse.id ? { ...courseData, id: selectedCourse.id } : course
+        )
+      );
       toast({
         title: "Course updated",
         description: "Course has been successfully updated.",
@@ -121,9 +100,9 @@ const [courses, setCourses] = useState<Course[]>([
     }
   };
 
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchQuery.toLowerCase())
+  // 🔍 Filter only by course number now
+  const filteredCourses = courses.filter((course) =>
+    course.courseNo.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const dossierDetails = [
@@ -132,21 +111,17 @@ const [courses, setCourses] = useState<Course[]>([
     { label: "Initial Interview", value: "20 Mar 2024", editable: true },
     { label: "Closed by", value: "", editable: true },
     { label: "Closed on", value: "", editable: true },
-    { label: "Final Interview", value: "", editable: true }
+    { label: "Final Interview", value: "", editable: true },
   ];
-
-  const overallProgress = Math.round(
-    courses.reduce((acc, course) => acc + course.progress, 0) / courses.length
-  );
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
-        
+
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="h-16 border-b border-border bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 sticky top-0 z-50">
+          <header className="h-16 border-b border-border bg-card/50 backdrop-blur sticky top-0 z-50">
             <div className="flex items-center justify-between px-4 h-full">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="h-8 w-8" />
@@ -161,7 +136,7 @@ const [courses, setCourses] = useState<Course[]>([
                 <div className="relative hidden md:block">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
-                    placeholder="Search courses, subjects..."
+                    placeholder="Search courses by number..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 w-80"
@@ -173,7 +148,9 @@ const [courses, setCourses] = useState<Course[]>([
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-primary text-primary-foreground">PC</AvatarFallback>
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                          PC
+                        </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
@@ -227,12 +204,6 @@ const [courses, setCourses] = useState<Course[]>([
               <p className="text-muted-foreground">
                 Manage training courses, assessments, and Officer Cadet development efficiently.
               </p>
-              <div className="mt-4 flex gap-2">
-                <Badge variant="secondary">Training Management</Badge>
-                <Badge variant="secondary">Assessment Tools</Badge>
-                <Badge variant="secondary">Reporting System</Badge>
-                <Badge variant="outline">Overall Progress: {overallProgress}%</Badge>
-              </div>
             </div>
 
             <Tabs defaultValue="overview" className="space-y-6">
@@ -241,34 +212,26 @@ const [courses, setCourses] = useState<Course[]>([
                   <FileText className="h-4 w-4" />
                   Overview
                 </TabsTrigger>
-                <TabsTrigger value="progress" className="flex items-center gap-2">
-                  <BarChart3 className="h-4 w-4" />
-                  Progress
-                </TabsTrigger>
-                <TabsTrigger value="dossier" className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  Dossier Details
-                </TabsTrigger>
-                <TabsTrigger value="settings" className="flex items-center gap-2">
-                  <Settings className="h-4 w-4" />
-                  Settings
-                </TabsTrigger>
+                <Link to="/dashboard/ocmgmt" className="text-center hover:text-primary">
+                  <TabsTrigger value="oc-mgmt">OC Management</TabsTrigger>
+                </Link>
+                <Link to="/dashboard/subjectmgmt" className="text-center hover:text-primary">
+                  <TabsTrigger value="course-mgmt">Subject Management</TabsTrigger>
+                </Link>
+                <Link to="/dashboard/usersmgmt" className="text-center hover:text-primary">
+                  <TabsTrigger value="course-mgmt">User Management</TabsTrigger>
+                </Link>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-foreground">Course Sections</h2>
-                  <div className="flex gap-2">
-                    <Button variant="outline">
-                      Export Report
-                    </Button>
-                    <Button onClick={handleAddCourse} className="flex items-center gap-2">
-                      <Plus className="h-4 w-4" />
-                      Add Course
-                    </Button>
-                  </div>
+                  <Button onClick={handleAddCourse} className="flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Add Course
+                  </Button>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredCourses.map((course) => (
                     <CourseCard
@@ -284,9 +247,13 @@ const [courses, setCourses] = useState<Course[]>([
                 {filteredCourses.length === 0 && (
                   <div className="text-center py-12">
                     <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                    <h3 className="text-xl font-semibold text-foreground mb-2">No courses found</h3>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">
+                      No courses found
+                    </h3>
                     <p className="text-muted-foreground mb-4">
-                      {searchQuery ? "No courses match your search criteria." : "No courses available yet."}
+                      {searchQuery
+                        ? "No courses match your search criteria."
+                        : "No courses available yet."}
                     </p>
                     <Button onClick={handleAddCourse}>
                       <Plus className="h-4 w-4 mr-2" />
@@ -300,8 +267,9 @@ const [courses, setCourses] = useState<Course[]>([
                 <div className="text-center py-12">
                   <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">Progress Analytics</h3>
-                  <p className="text-muted-foreground">Detailed progress tracking and analytics will be available here.</p>
-                  <p className="text-sm text-muted-foreground mt-2">Overall Progress: {overallProgress}%</p>
+                  <p className="text-muted-foreground">
+                    Detailed progress tracking and analytics will be available here.
+                  </p>
                 </div>
               </TabsContent>
 
@@ -317,7 +285,9 @@ const [courses, setCourses] = useState<Course[]>([
                 <div className="text-center py-12">
                   <Settings className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">Settings</h3>
-                  <p className="text-muted-foreground">Course settings and preferences will be available here.</p>
+                  <p className="text-muted-foreground">
+                    Course settings and preferences will be available here.
+                  </p>
                 </div>
               </TabsContent>
             </Tabs>
@@ -338,30 +308,24 @@ const [courses, setCourses] = useState<Course[]>([
       <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
         <DialogContent className="sm:max-w-[525px]">
           <DialogHeader>
-            <DialogTitle>{selectedCourse?.title}</DialogTitle>
-            <DialogDescription>
-              Course details and information
-            </DialogDescription>
+            <DialogTitle>{selectedCourse?.courseNo}</DialogTitle>
+            <DialogDescription>Course details and information</DialogDescription>
           </DialogHeader>
           {selectedCourse && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Page Range</label>
-                  <p className="text-sm">{selectedCourse.pageRange}</p>
+                  <label className="text-sm font-medium text-muted-foreground">Start Date</label>
+                  <p className="text-sm">{selectedCourse.startDate}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Status</label>
-                  <p className="text-sm capitalize">{selectedCourse.status.replace('-', ' ')}</p>
+                  <label className="text-sm font-medium text-muted-foreground">End Date</label>
+                  <p className="text-sm">{selectedCourse.endDate}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Progress</label>
-                  <p className="text-sm">{selectedCourse.progress}%</p>
+                  <label className="text-sm font-medium text-muted-foreground">Training Model</label>
+                  <p className="text-sm">{selectedCourse.trgModel}</p>
                 </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Description</label>
-                <p className="text-sm mt-1">{selectedCourse.description}</p>
               </div>
             </div>
           )}
@@ -371,4 +335,4 @@ const [courses, setCourses] = useState<Course[]>([
   );
 };
 
-export default CoursePage;
+export default CourseManagement;

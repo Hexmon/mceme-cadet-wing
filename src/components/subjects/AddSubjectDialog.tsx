@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,57 +8,89 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Save } from "lucide-react";
-import type { Subject } from "@/config/app.config";
+
+interface Subject {
+  id?: string;
+  trgModel?: string;
+  semNo?: string;
+  code?: string;
+  name?: string;
+  subjectType?: string;
+  theoryPractical?: string;
+  credits?: number;
+}
 
 interface AddSubjectDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onAdd: (subject: Omit<Subject, "id">) => void;
+  subject?: Omit<Subject, "id">;
 }
+
 
 export function AddSubjectDialog({
   isOpen,
   onOpenChange,
-  onAdd
+  onAdd,
+  subject,
 }: AddSubjectDialogProps) {
-  const [formData, setFormData] = useState({
-    name: "",
+  const [formData, setFormData] = useState<Omit<Subject, "id">>({
+    trgModel: "",
+    semNo: "",
     code: "",
-    instructor: "",
-    semester: "",
-    coverage: 0,
-    status: "pending" as const
+    name: "",
+    subjectType: "Common",
+    theoryPractical: "Theory",
+    credits: 0,
   });
 
-  const handleChange = (field: string, value: string | number) => {
-    setFormData(prev => ({
+  useEffect(() => {
+    if (subject) {
+      setFormData(subject); // pre-fill when editing
+    }
+  }, [subject]);
+
+
+
+  const handleChange = (field: keyof Subject, value: string | number) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleSubmit = () => {
-    if (!formData.name || !formData.code || !formData.instructor || !formData.semester) {
-      return; // Basic validation
+    if (!formData.name || !formData.code || !formData.semNo) {
+      return; // basic validation
     }
 
     onAdd(formData);
-    
-    // Reset form
-    setFormData({
-      name: "",
-      code: "",
-      instructor: "",
-      semester: "",
-      coverage: 0,
-      status: "pending"
-    });
-    
+
+    if (!subject) {
+      // Reset form only when adding new
+      setFormData({
+        trgModel: "",
+        semNo: "",
+        code: "",
+        name: "",
+        subjectType: "Common",
+        theoryPractical: "Theory",
+        credits: 0,
+      });
+    }
+
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -66,25 +98,36 @@ export function AddSubjectDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Plus className="h-5 w-5" />
-            Add New Subject
+            {subject ? "Edit Subject" : "Add New Subject"}
           </DialogTitle>
+
         </DialogHeader>
 
         <Card>
           <CardHeader>
             <CardTitle>Subject Information</CardTitle>
             <CardDescription>
-              Enter the basic details for the new subject
+              Enter the details for the new semester subject
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="subject-name">Subject Name</Label>
+              <Label htmlFor="trgModel">Trg Model</Label>
               <Input
-                id="subject-name"
-                value={formData.name}
-                onChange={(e) => handleChange("name", e.target.value)}
-                placeholder="e.g., Mathematics"
+                id="trgModel"
+                value={formData.trgModel}
+                onChange={(e) => handleChange("trgModel", e.target.value)}
+                placeholder="Enter Training Model"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="semNo">Sem No</Label>
+              <Input
+                id="semNo"
+                value={formData.semNo}
+                onChange={(e) => handleChange("semNo", e.target.value)}
+                placeholder="I"
               />
             </div>
 
@@ -94,61 +137,62 @@ export function AddSubjectDialog({
                 id="subject-code"
                 value={formData.code}
                 onChange={(e) => handleChange("code", e.target.value)}
-                placeholder="e.g., MATH101"
+                placeholder="e.g., CH101"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="instructor">Instructor</Label>
+              <Label htmlFor="subject-name">Subject</Label>
               <Input
-                id="instructor"
-                value={formData.instructor}
-                onChange={(e) => handleChange("instructor", e.target.value)}
-                placeholder="e.g., Dr. Smith"
+                id="subject-name"
+                value={formData.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                placeholder="ENGINEERING CHEMISTRY"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="semester">Semester</Label>
-              <Select value={formData.semester} onValueChange={(value) => handleChange("semester", value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select semester" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Fall 2024">Fall 2024</SelectItem>
-                  <SelectItem value="Spring 2024">Spring 2024</SelectItem>
-                  <SelectItem value="Summer 2024">Summer 2024</SelectItem>
-                  <SelectItem value="Fall 2025">Fall 2025</SelectItem>
-                  <SelectItem value="Spring 2025">Spring 2025</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="coverage">Initial Coverage (%)</Label>
-              <Input
-                id="coverage"
-                type="number"
-                min="0"
-                max="100"
-                value={formData.coverage}
-                onChange={(e) => handleChange("coverage", Number(e.target.value))}
-                placeholder="0"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select value={formData.status} onValueChange={(value) => handleChange("status", value)}>
+              <Label htmlFor="subject-type">Subject Type</Label>
+              <Select
+                value={formData.subjectType}
+                onValueChange={(value) => handleChange("subjectType", value)}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="in-progress">In Progress</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="Common">Common</SelectItem>
+                  <SelectItem value="Electronics">Electronics</SelectItem>
+                  <SelectItem value="Mechanical">Mechanical</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="theory-practical">Theory/Practical</Label>
+              <Select
+                value={formData.theoryPractical}
+                onValueChange={(value) => handleChange("theoryPractical", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Theory">Theory</SelectItem>
+                  <SelectItem value="Practical">Practical</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="credits">Credits</Label>
+              <Input
+                id="credits"
+                type="number"
+                value={formData.credits}
+                onChange={(e) => handleChange("credits", parseInt(e.target.value) || 0)}
+                placeholder="3"
+              />
             </div>
           </CardContent>
         </Card>
@@ -159,7 +203,7 @@ export function AddSubjectDialog({
           </Button>
           <Button onClick={handleSubmit} className="flex items-center gap-2">
             <Save className="h-4 w-4" />
-            Add Subject
+            {subject ? "Save Changes" : "Add Subject"}
           </Button>
         </div>
       </DialogContent>
