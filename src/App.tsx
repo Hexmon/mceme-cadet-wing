@@ -32,6 +32,7 @@ import OCManagement from "./pages/OCManagement";
 import CourseManagement from "./pages/dashboard/CourseManagement";
 import MilitaryTraining from "./pages/dashboard/MilitaryTraining";
 import DossierInspSheet from "./pages/DossierInsp";
+import PersParitculars from "./pages/PersParitculars";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ const App = () => (
           <Route path="/dashboard/genmgmt" element={<GeneralManagement/>}/>
           <Route path="/dashboard/milmgmt" element={<MilitaryTraining/>} />
           <Route path="/dashboard/dossier-insp" element={<DossierInspSheet/>} />
+          <Route path="/dashboard/pers-particulars" element={<PersParitculars/>} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

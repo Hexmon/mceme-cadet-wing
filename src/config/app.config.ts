@@ -1,8 +1,8 @@
-import { 
-  Medal, Star, Award, ClipboardList, AlertCircle, MessageSquare, Footprints, 
-  Calendar, BookMarked, Tent, Timer, Mountain, Target, Dumbbell, Phone, 
-  ShieldAlert, HeartPulse, FileSearch, User, ClipboardCheck, FileText, 
-  BookOpen, Users, UserCheck, Settings, Shield, HelpCircle, 
+import {
+  Medal, Star, Award, ClipboardList, AlertCircle, MessageSquare, Footprints,
+  Calendar, BookMarked, Tent, Timer, Mountain, Target, Dumbbell, Phone,
+  ShieldAlert, HeartPulse, FileSearch, User, ClipboardCheck, FileText,
+  BookOpen, Users, UserCheck, Settings, Shield, HelpCircle,
   LucideIcon,
   Ban
 } from "lucide-react";
@@ -175,33 +175,21 @@ export const dashboardCards = [
     color: "bg-blue-500"
   },
   {
-    title: "Military Training",
-    description: "Plan, track, and monitor military training activities",
-    icon: Shield,
+    title: "Dossier",
+    description: "Organize, manage, and securely store essential documents and files",
+    icon: FileText,
     to: "/dashboard/milmgmt",
     color: "bg-blue-500"
   },
-  {
-    title: "Assessment",
-    description: "Conduct, manage, and review assessments",
-    icon: FileText,
-    to: "",
-    color: "bg-green-500"
-  },
-  {
-    title: "Academics",
-    description: "Manage academic subjects, topics, and study material",
-    icon: BookOpen,
-    to: "",
-    color: "bg-purple-500"
-  },
-  {
-    title: "Interview",
-    description: "Schedule and manage candidate interviews",
-    icon: UserCheck,
-    to: "",
-    color: "bg-orange-500"
-  },
+
+  // {
+  //   title: "Academics",
+  //   description: "Manage academic subjects, topics, and study material",
+  //   icon: BookOpen,
+  //   to: "",
+  //   color: "bg-purple-500"
+  // },
+
   // {
   //   title: "User Management",
   //   description: "Handle user accounts and permissions",
@@ -405,7 +393,21 @@ export const militaryTrainingCards: TrainingCard[] = [
     icon: AlertCircle,
     to: "/dashboard/warning-records",
     color: "bg-orange-700"
-  }
+  },
+  {
+    title: "Assessment",
+    description: "Conduct, manage, and review assessments",
+    icon: FileText,
+    to: "",
+    color: "bg-green-500"
+  },
+  {
+    title: "Interview",
+    description: "Schedule and manage candidate interviews",
+    icon: UserCheck,
+    to: "",
+    color: "bg-orange-500"
+  },
 ];
 
 

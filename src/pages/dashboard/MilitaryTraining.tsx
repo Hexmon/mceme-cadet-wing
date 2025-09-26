@@ -15,7 +15,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Search, User, LogOut, Settings, Shield } from "lucide-react";
+import { Search, User, LogOut, Settings, Shield, BookOpen } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { managementCard, militaryTrainingCards } from "@/config/app.config";
@@ -30,21 +30,34 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import Academics from "../Academics";
+
+type Cadet = {
+    name: string;
+    course: string;
+    ocNumber: string;
+};
 
 
 // Sample user data
-const cadets = ["Ravi Kumar", "Arjun Singh", "Vikram Roy"];
+const cadets: Cadet[] = [
+    { name: "Ravi Kumar", course: "TES-43", ocNumber: "OC-101" },
+    { name: "Arjun Singh", course: "TES-44", ocNumber: "OC-102" },
+    { name: "Vikram Roy", course: "TES-45", ocNumber: "OC-103" },
+];
+
 
 export default function MilitaryTraining() {
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedCadet, setSelectedCadet] = useState<string | null>(null);
+    const [selectedCadet, setSelectedCadet] = useState<Cadet | null>(null);
+
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [dossierFilling, setDossierFilling] = useState(false);
 
     const handleSearch = () => {
         const found = cadets.find(
-            (cadet) => cadet.toLowerCase() === searchQuery.trim().toLowerCase()
+            (cadet) => cadet.name.toLowerCase() === searchQuery.trim().toLowerCase()
         );
 
         if (found) {
@@ -77,9 +90,9 @@ export default function MilitaryTraining() {
                             <div className="flex items-center gap-4">
                                 <SidebarTrigger className="h-8 w-8" />
                                 <div>
-                                    <h1 className="text-lg font-semibold text-primary">Military Training</h1>
+                                    <h1 className="text-lg font-semibold text-primary">Dossier</h1>
                                     <p className="text-sm text-muted-foreground">
-                                        Oversee PT, drills, swimming, and field training for Officer Cadets at MCEME
+                                        Organize, manage, and securely store essential documents and files
                                     </p>
                                 </div>
 
@@ -135,21 +148,42 @@ export default function MilitaryTraining() {
                                         <span className="text-muted-foreground">/</span>
                                     </li>
                                     <li className="text-primary" aria-current="page">
-                                        Military Training
+                                        Dossier
                                     </li>
                                 </ol>
                             </nav>
                         </div>
+                        {/* Search Section */}
+                        <div className="relative hidden md:flex flex-col gap-2 mb-7">
+                            <div className="flex items-center gap-2">
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                                    <Input
+                                        placeholder="Search Cadets..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="pl-10 w-80"
+                                    />
+                                </div>
+                                <Button
+                                    variant="default"
+                                    size="sm"
+                                    onClick={handleSearch}
+                                >
+                                    Search
+                                </Button>
+                            </div>
 
-                        {/* welcome section */}
-                        <div className="mb-8">
-                            <h2 className="text-2xl font-bold text-primary mb-2">MCEME Military Training Command</h2>
-                            <p className="text-muted-foreground">
-                                Strengthen leadership, discipline, and operational excellence by managing and coordinating advanced military training programs for future-ready soldiers.
-                            </p>
+                            {/* Show selected cadet name */}
+                            {selectedCadet && (
+                                <div className="text-sm text-green-600 font-medium flex gap-4">
+                                    <p>Selected Cadet: {selectedCadet.name}</p>
+                                    <p>Course: {selectedCadet.course}</p>
+                                    <p>OC Number: {selectedCadet.ocNumber}</p>
+                                </div>
+
+                            )}
                         </div>
-
-
 
                         {/* Tabs */}
                         <Tabs defaultValue="mil-trg" className="space-y-6">
@@ -159,8 +193,8 @@ export default function MilitaryTraining() {
                                     Mil-Trg
                                 </TabsTrigger>
                                 <TabsTrigger value="settings" className="flex items-center gap-2">
-                                    <Settings className="h-4 w-4" />
-                                    Settings
+                                    <BookOpen className="h-4 w-4" />
+                                    Academics
                                 </TabsTrigger>
                             </TabsList>
 
@@ -171,34 +205,7 @@ export default function MilitaryTraining() {
                   <Button variant="outline">Add User</Button>
                 </div> */}
                                 {/* Dashboard Cards */}
-                                {/* Search Section */}
-                                <div className="relative hidden md:flex flex-col gap-2">
-                                    <div className="flex items-center gap-2">
-                                        <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                                            <Input
-                                                placeholder="Search Cadets..."
-                                                value={searchQuery}
-                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                                className="pl-10 w-80"
-                                            />
-                                        </div>
-                                        <Button
-                                            variant="default"
-                                            size="sm"
-                                            onClick={handleSearch}
-                                        >
-                                            Search
-                                        </Button>
-                                    </div>
 
-                                    {/* Show selected cadet name */}
-                                    {selectedCadet && (
-                                        <p className="text-sm text-green-600 font-medium">
-                                            Selected Cadet: {selectedCadet}
-                                        </p>
-                                    )}
-                                </div>
 
 
 
@@ -278,7 +285,7 @@ export default function MilitaryTraining() {
             <Dialog open={dossierFilling} onOpenChange={setDossierFilling}>
                 <DialogContent className="sm:max-w-[600px]">
                     <DialogHeader>
-                        <DialogTitle>Dossier Filling Details - {selectedCadet}</DialogTitle>
+                        <DialogTitle>Dossier Filling Details - {selectedCadet?.name}</DialogTitle>
                         <DialogDescription>
                             Please fill in the details for the selected cadet.
                         </DialogDescription>
