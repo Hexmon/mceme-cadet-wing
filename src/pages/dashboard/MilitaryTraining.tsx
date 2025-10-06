@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
-import { UserCard } from "@/components/users/UserCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -15,7 +14,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Search, User, LogOut, Settings, Shield } from "lucide-react";
+import { Search, User, LogOut, Settings, Shield, BookOpen } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { managementCard, militaryTrainingCards } from "@/config/app.config";
@@ -30,38 +29,52 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-
+import Academics from "../Academics";
+import { Cadet } from "@/types/cadet";
+import SelectedCadetTable from "@/components/cadet_table/SelectedCadetTable";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setSelectedCadet } from "@/store/cadetSlice";
+import { PageHeader } from "@/components/layout/PageHeader";
+import BreadcrumbNav from "@/components/layout/BreadcrumbNav";
 
 // Sample user data
-const cadets = ["Ravi Kumar", "Arjun Singh", "Vikram Roy"];
+const cadets: Cadet[] = [
+    { name: "Ravi Kumar", course: "TES-43", ocNumber: "OC-101" },
+    { name: "Arjun Singh", course: "TES-44", ocNumber: "OC-102" },
+    { name: "Vikram Roy", course: "TES-45", ocNumber: "OC-103" },
+];
+
 
 export default function MilitaryTraining() {
+    const dispatch = useDispatch();
+    const selectedCadet = useSelector((state: RootState) => state.cadet.selectedCadet);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedCadet, setSelectedCadet] = useState<string | null>(null);
+
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [dossierFilling, setDossierFilling] = useState(false);
 
     const handleSearch = () => {
         const found = cadets.find(
-            (cadet) => cadet.toLowerCase() === searchQuery.trim().toLowerCase()
+            (cadet) => cadet.name.toLowerCase() === searchQuery.trim().toLowerCase()
         );
 
         if (found) {
-            setSelectedCadet(found);
+            dispatch(setSelectedCadet(found));
             console.log("Cadet selected:", found);
 
-            // Auto-open Dossier Filling card
-            setDossierFilling(true);
+            //setDossierFilling(true);
         } else {
-            setSelectedCadet(null);
+            dispatch(setSelectedCadet(null));
             setAlertMessage("Cadet not found. Please search again.");
             setShowAlert(true);
         }
     };
-
+    const navigate = useNavigate()
 
     const handleLogout = () => {
+        navigate("/login")
         console.log("Logout clicked");
     };
 
@@ -73,83 +86,50 @@ export default function MilitaryTraining() {
                 <div className="flex-1 flex flex-col">
                     {/* Header */}
                     <header className="h-16 border-b border-border bg-card/50 backdrop-blur sticky top-0 z-50">
-                        <div className="flex items-center justify-between px-4 h-full">
-                            <div className="flex items-center gap-4">
-                                <SidebarTrigger className="h-8 w-8" />
-                                <div>
-                                    <h1 className="text-lg font-semibold text-primary">Military Training</h1>
-                                    <p className="text-sm text-muted-foreground">
-                                        Oversee PT, drills, swimming, and field training for Officer Cadets at MCEME
-                                    </p>
-                                </div>
-
-                            </div>
-
-                            <div className="flex items-center gap-4">
-
-
-                                {/* User Menu */}
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                            <Avatar className="h-8 w-8">
-                                                <AvatarFallback className="bg-primary text-primary-foreground">PC</AvatarFallback>
-                                            </Avatar>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-56">
-                                        <div className="flex items-center justify-start gap-2 p-2">
-                                            <div className="flex flex-col space-y-1 leading-none">
-                                                <p className="font-medium">Platoon Commander</p>
-                                                <p className="w-[200px] truncate text-sm text-muted-foreground">
-                                                    platoon.cmd@mceme.gov.in
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <DropdownMenuItem>
-                                            <User className="mr-2 h-4 w-4" />
-                                            <span>Profile Settings</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={handleLogout}>
-                                            <LogOut className="mr-2 h-4 w-4" />
-                                            <span>Logout</span>
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
-                        </div>
+                        <PageHeader
+                            title="Dossier"
+                            description="Organize, manage, and securely store essential documents and files"
+                            onLogout={handleLogout}
+                        />
                     </header>
 
                     {/* Main Content */}
                     <main className="flex-1 p-6">
-                        {/* Breadcrumb */}
-                        <div className="mb-6">
-                            <nav className="flex" aria-label="Breadcrumb">
-                                <ol className="inline-flex items-center space-x-1 md:space-x-3">
-                                    <li className="inline-flex items-center">
-                                        <Link to="/dashboard" className="text-muted-foreground hover:text-primary">
-                                            Dashboard
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <span className="text-muted-foreground">/</span>
-                                    </li>
-                                    <li className="text-primary" aria-current="page">
-                                        Military Training
-                                    </li>
-                                </ol>
-                            </nav>
+                        <div className="">
+                            <div className="flex justify-between items-center rounded-2xl mb-2">
+                                {/* Breadcrumb */}
+                                <BreadcrumbNav
+                                    paths={[
+                                        { label: "Dashboard", href: "/dashboard" },
+                                        { label: "Dossier" },
+                                    ]}
+                                />
+
+                                {/* Search Section */}
+                                <div className="flex items-center gap-2">
+                                    <div className="relative">
+                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                                        <Input
+                                            placeholder="Search Cadets..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="pl-10 w-80"
+                                        />
+                                    </div>
+                                    <Button variant="default" size="sm" onClick={handleSearch}>
+                                        Search
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* welcome section */}
-                        <div className="mb-8">
-                            <h2 className="text-2xl font-bold text-primary mb-2">MCEME Military Training Command</h2>
-                            <p className="text-muted-foreground">
-                                Strengthen leadership, discipline, and operational excellence by managing and coordinating advanced military training programs for future-ready soldiers.
-                            </p>
+                        {/* Selected Cadet Section */}
+                        <div className="hidden md:flex sticky top-16 z-40">
+                            {/* Sticky Top Section */}
+                            {selectedCadet && (
+                                <SelectedCadetTable selectedCadet={selectedCadet} />
+                            )}
                         </div>
-
-
 
                         {/* Tabs */}
                         <Tabs defaultValue="mil-trg" className="space-y-6">
@@ -159,8 +139,8 @@ export default function MilitaryTraining() {
                                     Mil-Trg
                                 </TabsTrigger>
                                 <TabsTrigger value="settings" className="flex items-center gap-2">
-                                    <Settings className="h-4 w-4" />
-                                    Settings
+                                    <BookOpen className="h-4 w-4" />
+                                    Academics
                                 </TabsTrigger>
                             </TabsList>
 
@@ -171,34 +151,7 @@ export default function MilitaryTraining() {
                   <Button variant="outline">Add User</Button>
                 </div> */}
                                 {/* Dashboard Cards */}
-                                {/* Search Section */}
-                                <div className="relative hidden md:flex flex-col gap-2">
-                                    <div className="flex items-center gap-2">
-                                        <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                                            <Input
-                                                placeholder="Search Cadets..."
-                                                value={searchQuery}
-                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                                className="pl-10 w-80"
-                                            />
-                                        </div>
-                                        <Button
-                                            variant="default"
-                                            size="sm"
-                                            onClick={handleSearch}
-                                        >
-                                            Search
-                                        </Button>
-                                    </div>
 
-                                    {/* Show selected cadet name */}
-                                    {selectedCadet && (
-                                        <p className="text-sm text-green-600 font-medium">
-                                            Selected Cadet: {selectedCadet}
-                                        </p>
-                                    )}
-                                </div>
 
 
 
@@ -275,17 +228,17 @@ export default function MilitaryTraining() {
                 </AlertDialogContent>
             </AlertDialog>
             {/* Dossier Filling Modal */}
-            <Dialog open={dossierFilling} onOpenChange={setDossierFilling}>
+            {/* <Dialog open={dossierFilling} onOpenChange={setDossierFilling}>
                 <DialogContent className="sm:max-w-[600px]">
                     <DialogHeader>
-                        <DialogTitle>Dossier Filling Details - {selectedCadet}</DialogTitle>
+                        <DialogTitle>Dossier Filling Details - {selectedCadet?.name}</DialogTitle>
                         <DialogDescription>
                             Please fill in the details for the selected cadet.
                         </DialogDescription>
                     </DialogHeader>
 
                     {/* Form Fields */}
-                    <form className="space-y-4"
+            {/* <form className="space-y-4"
                         onSubmit={(e) => {
                             e.preventDefault(); // stop page reload
 
@@ -302,17 +255,17 @@ export default function MilitaryTraining() {
                             console.log("Dossier Saved:", dossierData);
 
                             // close modal after saving
-                            setDossierFilling(false);
-
+                            setDossierFilling(false); */}
+            {/* 
                             // (optional) show a toast or alert for confirmation
-                        }}
-                    >
-                        <div className="grid grid-cols-2 gap-4">
-                            {/* <div>
+                       // }} */}
+            {/* //> */}
+            {/* <div className="grid grid-cols-2 gap-4"> */}
+            {/* <div>
                                 <label className="text-sm font-medium">Name</label>
                                 <Input value={selectedCadet || ""} disabled />
                             </div> */}
-                            <div>
+            {/* <div>
                                 <label className="text-sm font-medium">Initiated By</label>
                                 <Input placeholder="Enter your name" />
                             </div>
@@ -342,15 +295,15 @@ export default function MilitaryTraining() {
                         <div>
                             <label className="text-sm font-medium">Closed On</label>
                             <Input type="date" />
-                        </div>
+                        </div> */}
 
-                        {/* <div>
+            {/* <div>
                             <label className="text-sm font-medium">Upload Photo</label>
                             <Input type="file" accept="image/*" />
                         </div> */}
 
-                        {/* Actions */}
-                        <DialogFooter>
+            {/* Actions */}
+            {/* <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => setDossierFilling(false)}>
                                 Cancel
                             </Button>
@@ -360,7 +313,7 @@ export default function MilitaryTraining() {
                         </DialogFooter>
                     </form>
                 </DialogContent>
-            </Dialog>
+            </Dialog> */}
 
         </SidebarProvider>
     );

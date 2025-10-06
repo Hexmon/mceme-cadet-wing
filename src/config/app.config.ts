@@ -1,10 +1,11 @@
-import { 
-  Medal, Star, Award, ClipboardList, AlertCircle, MessageSquare, Footprints, 
-  Calendar, BookMarked, Tent, Timer, Mountain, Target, Dumbbell, Phone, 
-  ShieldAlert, HeartPulse, FileSearch, User, ClipboardCheck, FileText, 
-  BookOpen, Users, UserCheck, Settings, Shield, HelpCircle, 
+import {
+  Medal, Star, Award, ClipboardList, AlertCircle, MessageSquare, Footprints,
+  Calendar, BookMarked, Tent, Timer, Mountain, Target, Dumbbell, Phone,
+  ShieldAlert, HeartPulse, FileSearch, User, ClipboardCheck, FileText,
+  BookOpen, Users, UserCheck, Settings, Shield, HelpCircle,
   LucideIcon,
-  Ban
+  Ban,
+  Camera
 } from "lucide-react";
 
 
@@ -175,33 +176,21 @@ export const dashboardCards = [
     color: "bg-blue-500"
   },
   {
-    title: "Military Training",
-    description: "Plan, track, and monitor military training activities",
-    icon: Shield,
+    title: "Dossier",
+    description: "Organize, manage, and securely store essential documents and files",
+    icon: FileText,
     to: "/dashboard/milmgmt",
     color: "bg-blue-500"
   },
-  {
-    title: "Assessment",
-    description: "Conduct, manage, and review assessments",
-    icon: FileText,
-    to: "",
-    color: "bg-green-500"
-  },
-  {
-    title: "Academics",
-    description: "Manage academic subjects, topics, and study material",
-    icon: BookOpen,
-    to: "",
-    color: "bg-purple-500"
-  },
-  {
-    title: "Interview",
-    description: "Schedule and manage candidate interviews",
-    icon: UserCheck,
-    to: "",
-    color: "bg-orange-500"
-  },
+
+  // {
+  //   title: "Academics",
+  //   description: "Manage academic subjects, topics, and study material",
+  //   icon: BookOpen,
+  //   to: "",
+  //   color: "bg-purple-500"
+  // },
+
   // {
   //   title: "User Management",
   //   description: "Handle user accounts and permissions",
@@ -280,13 +269,20 @@ type TrainingCard = {
 };
 
 export const militaryTrainingCards: TrainingCard[] = [
-  // {
-  //   title: "Dossier Filling",
-  //   description: "Maintain detailed dossier filling records",
-  //   icon: FileText,
-  //   to: "/dashboard/dossier-filling",
-  //   color: "bg-green-600"
-  // },
+  {
+  title: "Dossier Snapshot",
+  description: "Quickly view and analyze OC details",
+  icon: Camera,
+  to: "/dashboard/dossier-snapshot",
+  color: "bg-blue-600"
+},
+  {
+    title: "Dossier Filling",
+    description: "Maintain detailed dossier filling records",
+    icon: FileText,
+    to: "/dashboard/dossier-filling",
+    color: "bg-green-600"
+  },
   {
     title: "Dossier Inspection",
     description: "Track and review dossier inspection sheets",
@@ -307,6 +303,13 @@ export const militaryTrainingCards: TrainingCard[] = [
     icon: FileSearch,
     to: "/dashboard/background-detls",
     color: "bg-cyan-600"
+  },
+  {
+    title: "SSB Reports",
+    description: "Capture cadet reports information",
+    icon: FileText,
+    to: "/dashboard/ssb-reports",
+    color: "bg-cyan-600",
   },
   {
     title: "Medical Records",
@@ -405,7 +408,21 @@ export const militaryTrainingCards: TrainingCard[] = [
     icon: AlertCircle,
     to: "/dashboard/warning-records",
     color: "bg-orange-700"
-  }
+  },
+  {
+    title: "Assessment",
+    description: "Conduct, manage, and review assessments",
+    icon: FileText,
+    to: "",
+    color: "bg-green-500"
+  },
+  {
+    title: "Interview",
+    description: "Schedule and manage candidate interviews",
+    icon: UserCheck,
+    to: "",
+    color: "bg-orange-500"
+  },
 ];
 
 
@@ -952,3 +969,57 @@ export const courseSections = [
   { title: "Performance Graph", pageRange: "105-106", progress: 25, status: "pending" as const, description: "Visual performance tracking and analytics" },
   { title: "Indl Course Report", pageRange: "107", progress: 0, status: "pending" as const, description: "Individual course completion report" }
 ]
+
+export const managementTabs = [
+  { value: "Gen Mgmt", title: "Gen Mgmt", icon: Shield },
+  { value: "settings", title: "Settings", icon: Settings },
+];
+
+export const ocTabs = [
+  { value: "all", title: "OC Management", icon: Users },
+  { value: "course-mgmt", title: "Course Management", link: "/dashboard/coursemgmt" },
+  { value: "subject-mgmt", title: "Subject Management", link: "/dashboard/subjectmgmt" },
+  { value: "user-mgmt", title: "User Management", link: "/dashboard/usersmgmt" },
+];
+
+export type OCRecord = {
+  tesNo: string;
+  name: string;
+  course: string;
+  dtOfArrival: string;
+  visibleIdenMks: string;
+  pl: string;
+  dob: string;
+  placeOfBirth: string;
+  domicile: string;
+  religion: string;
+  nationality: string;
+  bloodGp: string;
+  idenMarks: string;
+  fatherName: string;
+  fatherMobile: string;
+  fatherAddress: string;
+  fatherProfession: string;
+  guardianName: string;
+  guardianAddress: string;
+  monthlyIncome: string;
+  nokDetails: string;
+  nokAddress: string;
+  nearestRlyStn: string;
+  secunderabadAddr: string;
+  relativeArmedForces: string;
+  govtFinAsst: string;
+  mobNo: string;
+  email: string;
+  passportNo: string;
+  panCardNo: string;
+  aadharNo: string;
+  bankDetails: string;
+  idCardNo: string;
+  upscRollNo: string;
+  ssbCentre: string;
+  games: string;
+  hobbies: string;
+  swimmerStatus: string;
+  language: string;
+};

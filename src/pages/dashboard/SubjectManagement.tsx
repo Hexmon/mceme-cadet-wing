@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Book, Search, User, LogOut, Settings, ListChecks, Plus } from "lucide-react";
 import { subjects as initialSubjects, type Subject } from "@/config/app.config";
+import { PageHeader } from "@/components/layout/PageHeader";
+import BreadcrumbNav from "@/components/layout/BreadcrumbNav";
 
 const Index = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -80,85 +82,30 @@ const Index = () => {
                 <div className="flex-1 flex flex-col">
                     {/* Header */}
                     <header className="h-16 border-b border-border bg-card/50 backdrop-blur sticky top-0 z-50">
-                        <div className="flex items-center justify-between px-4 h-full">
-                            <div className="flex items-center gap-4">
-                                <SidebarTrigger className="h-8 w-8" />
-                                <div>
-                                    <h1 className="text-lg font-semibold text-primary">Subject Management</h1>
-                                    <p className="text-sm text-muted-foreground">Manage subjects, instructors, and curriculum coverage</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-4">
-                                {/* Search Bar */}
-                                <div className="relative hidden md:block">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                                    <Input
-                                        placeholder="Search subjects..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="pl-10 w-80"
-                                    />
-                                </div>
-
-                                {/* User Menu */}
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                            <Avatar className="h-8 w-8">
-                                                <AvatarFallback className="bg-primary text-primary-foreground">PC</AvatarFallback>
-                                            </Avatar>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-56">
-                                        <div className="flex items-center justify-start gap-2 p-2">
-                                            <div className="flex flex-col space-y-1 leading-none">
-                                                <p className="font-medium">Platoon Commander</p>
-                                                <p className="w-[200px] truncate text-sm text-muted-foreground">
-                                                    platoon.cmd@mceme.gov.in
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <DropdownMenuItem>
-                                            <User className="mr-2 h-4 w-4" />
-                                            <span>Profile Settings</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={handleLogout}>
-                                            <LogOut className="mr-2 h-4 w-4" />
-                                            <span>Logout</span>
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
-                        </div>
+                        <PageHeader
+                            title="Subject Management"
+                            description="Manage subjects, instructors, and curriculum coverage"
+                            onLogout={handleLogout}
+                        />
                     </header>
 
                     {/* Main Content */}
                     <main className="flex-1 p-6">
                         {/* Breadcrumb */}
-                        <div className="mb-6">
-                            <nav className="flex" aria-label="Breadcrumb">
-                                <ol className="inline-flex items-center space-x-1 md:space-x-3">
-                                    <li className="inline-flex items-center">
-                                        <Link to="/dashboard" className="text-muted-foreground hover:text-primary">
-                                            Dashboard
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <span className="text-muted-foreground">/</span>
-                                    </li>
-                                    <li className="text-primary" aria-current="page">
-                                        Subject Management
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                        <div className="mb-8">
+                        <BreadcrumbNav
+                            paths={[
+                                { label: "Dashboard", href: "/dashboard" },
+                                { label: "Gen Mgmt", href: "/dashboard/genmgmt" },
+                                { label: "Subject Management" }
+                            ]}
+                        />
+
+                        {/* <div className="mb-8">
                             <h2 className="text-2xl font-bold text-primary mb-2">MCEME CTW Subject Management</h2>
                             <p className="text-muted-foreground">
                                 Organize and monitor academic and training subjects to support structured learning and cadet performance.
                             </p>
-                        </div>
+                        </div> */}
 
 
                         {/* Tabs */}
@@ -166,7 +113,7 @@ const Index = () => {
                             <TabsList className="grid w-full grid-cols-4">
                                 <TabsTrigger value="subjects" className="flex items-center gap-2">
                                     <Book className="h-4 w-4" />
-                                    Subjects
+                                    Subject Management
                                 </TabsTrigger>
                                 <Link to="/dashboard/ocmgmt" className="text-center hover:text-primary">
                                     <TabsTrigger value="oc-mgmt">OC Management</TabsTrigger>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
-import { UserCard } from "@/components/users/UserCard";
+import { UserListItem } from "@/components/users/UserCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import BreadcrumbNav from "@/components/layout/BreadcrumbNav";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 // Sample user data
 
@@ -181,93 +183,37 @@ export default function UserManagement() {
         <div className="flex-1 flex flex-col">
           {/* Header */}
           <header className="h-16 border-b border-border bg-card/50 backdrop-blur sticky top-0 z-50">
-            <div className="flex items-center justify-between px-4 h-full">
-              <div className="flex items-center gap-4">
-                <SidebarTrigger className="h-8 w-8" />
-                <div>
-                  <h1 className="text-lg font-semibold text-primary">User Management</h1>
-                  <p className="text-sm text-muted-foreground">Manage user access and roles in MCEME</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                {/* Search */}
-                <div className="relative hidden md:block">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                  <Input
-                    placeholder="Search users..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 w-80"
-                  />
-                </div>
-
-                {/* User Menu */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-primary text-primary-foreground">PC</AvatarFallback>
-                      </Avatar>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <div className="flex items-center justify-start gap-2 p-2">
-                      <div className="flex flex-col space-y-1 leading-none">
-                        <p className="font-medium">Platoon Commander</p>
-                        <p className="w-[200px] truncate text-sm text-muted-foreground">
-                          platoon.cmd@mceme.gov.in
-                        </p>
-                      </div>
-                    </div>
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile Settings</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Logout</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
+            <PageHeader
+              title="User Management"
+              description="Manage user access and roles in MCEME"
+              onLogout={handleLogout}
+            />
           </header>
 
           {/* Main Content */}
           <main className="flex-1 p-6">
             {/* Breadcrumb */}
-            <div className="mb-6">
-              <nav className="flex" aria-label="Breadcrumb">
-                <ol className="inline-flex items-center space-x-1 md:space-x-3">
-                  <li className="inline-flex items-center">
-                    <Link to="/dashboard" className="text-muted-foreground hover:text-primary">
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <span className="text-muted-foreground">/</span>
-                  </li>
-                  <li className="text-primary" aria-current="page">
-                    User Management
-                  </li>
-                </ol>
-              </nav>
-            </div>
+            <BreadcrumbNav
+              paths={[
+                { label: "Dashboard", href: "/dashboard" },
+                { label: "Gen Mgmt", href: "/dashboard/genmgmt" },
+                { label: "User Management" }
+              ]}
+            />
             {/* welcome section */}
-            <div className="mb-8">
+            {/* <div className="mb-8">
               <h2 className="text-2xl font-bold text-primary mb-2">MCEME CTW User Management</h2>
               <p className="text-muted-foreground">
                 Manage user accounts, roles, and access permissions to ensure secure and efficient system usage.
               </p>
-            </div>
+            </div> */}
 
             {/* Tabs */}
             <Tabs defaultValue="users" className="space-y-6">
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="users" className="flex items-center gap-2">
                   <Shield className="h-4 w-4" />
-                  Users
+                  User Management
                 </TabsTrigger>
                 <Link to="/dashboard/coursemgmt" className="text-center text-muted-foreground hover:text-primary">
                   <TabsTrigger value="course-mgmt">
@@ -302,14 +248,15 @@ export default function UserManagement() {
                   </Button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="divide-y border rounded-md">
                   {users
                     .filter(user =>
                       user.UserName.toLowerCase().includes(searchQuery.toLowerCase())
                     )
                     .map((user, index) => (
-                      <UserCard
+                      <UserListItem
                         key={index}
+                        id={index.toString()}
                         username={user.UserName}
                         fullName={user.FullName}
                         role={user.Role}
@@ -323,6 +270,7 @@ export default function UserManagement() {
                       />
                     ))}
                 </div>
+
               </TabsContent>
             </Tabs>
           </main>
