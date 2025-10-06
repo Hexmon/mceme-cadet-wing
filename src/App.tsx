@@ -33,50 +33,64 @@ import CourseManagement from "./pages/dashboard/CourseManagement";
 import MilitaryTraining from "./pages/dashboard/MilitaryTraining";
 import DossierInspSheet from "./pages/DossierInsp";
 import PersParitculars from "./pages/PersParitculars";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import DossierFilling from "./pages/DossierFilling";
+import BackgroundDetls from "./pages/BackgroundDetls";
+import SSBReport from "./pages/SSBReport";
+import MedicalRecords from "./pages/MedicalRecords";
+import DossierSnapshot from "./pages/DossierSnapshot";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/commander/:id" element={<CommanderDetail />} />
-          <Route path="/dashboard/reports" element={<Reports />} />
-          <Route path="/dashboard/coursemgmt" element={<CourseManagement />} />
-          <Route path="/dashboard/subjectmgmt" element={<SubjectManagement />} />
-          <Route path="/dashboard/instructors" element={<InstructorManagement />} />
-          <Route path="/dashboard/usersmgmt" element={<UserManagement />} />
-          <Route path="/dashboard/settings" element={<Settings />} />
-          <Route path="/dashboard/appointments" element={<AppointmentManagement />} />
-          <Route path="/dashboard/help" element={<HelpPage />} />
-          <Route path="/dashboard/olqa" element={<OLQAssessment />} />
-          <Route path="/dashboard/ocmgmt" element={<OCManagement />} />
-          <Route path="/dashboard/activities" element={<ActivitiesPage />} />
-          <Route path="/dashboard/interview/platoon-cdr" element={<PlatoonCdr />} />
-          <Route path="/dashboard/interview/ds-coord" element={<DSCoord />} />
-          <Route path="/dashboard/interview/cdr-ctw" element={<CDRCTW />} />
-          <Route path="/dashboard/interview/dcci" element={<DCCI />} />
-          <Route path="/dashboard/interview/comdt" element={<Comdt />} />
-          <Route path="/dashboard/academics" element={<Academics />} />
-          <Route path="/dashboard/genmgmt" element={<GeneralManagement/>}/>
-          <Route path="/dashboard/milmgmt" element={<MilitaryTraining/>} />
-          <Route path="/dashboard/dossier-insp" element={<DossierInspSheet/>} />
-          <Route path="/dashboard/pers-particulars" element={<PersParitculars/>} />
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/commander/:id" element={<CommanderDetail />} />
+            <Route path="/dashboard/reports" element={<Reports />} />
+            <Route path="/dashboard/coursemgmt" element={<CourseManagement />} />
+            <Route path="/dashboard/subjectmgmt" element={<SubjectManagement />} />
+            <Route path="/dashboard/instructors" element={<InstructorManagement />} />
+            <Route path="/dashboard/usersmgmt" element={<UserManagement />} />
+            <Route path="/dashboard/settings" element={<Settings />} />
+            <Route path="/dashboard/appointments" element={<AppointmentManagement />} />
+            <Route path="/dashboard/help" element={<HelpPage />} />
+            <Route path="/dashboard/olqa" element={<OLQAssessment />} />
+            <Route path="/dashboard/ocmgmt" element={<OCManagement />} />
+            <Route path="/dashboard/activities" element={<ActivitiesPage />} />
+            <Route path="/dashboard/interview/platoon-cdr" element={<PlatoonCdr />} />
+            <Route path="/dashboard/interview/ds-coord" element={<DSCoord />} />
+            <Route path="/dashboard/interview/cdr-ctw" element={<CDRCTW />} />
+            <Route path="/dashboard/interview/dcci" element={<DCCI />} />
+            <Route path="/dashboard/interview/comdt" element={<Comdt />} />
+            <Route path="/dashboard/academics" element={<Academics />} />
+            <Route path="/dashboard/genmgmt" element={<GeneralManagement />} />
+            <Route path="/dashboard/milmgmt" element={<MilitaryTraining />} />
+            <Route path="/dashboard/dossier-insp" element={<DossierInspSheet />} />
+            <Route path="/dashboard/dossier-filling" element={<DossierFilling />} />
+            <Route path="/dashboard/pers-particulars" element={<PersParitculars />} />
+            <Route path="/dashboard/background-detls" element={<BackgroundDetls />} />
+            <Route path="/dashboard/ssb-reports" element={<SSBReport />} />
+            <Route path="/dashboard/med-record" element={<MedicalRecords />} />
+            <Route path="/dashboard/dossier-snapshot" element={<DossierSnapshot />} />
 
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </Provider>
 );
 
 export default App;

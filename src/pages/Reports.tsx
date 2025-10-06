@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,28 +12,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
     SidebarProvider,
+    SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Search, User, LogOut, Settings, Shield, ClipboardCheck, ChevronDown } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { managementCard, militaryTrainingCards } from "@/config/app.config";
+
 import { Textarea } from "@/components/ui/textarea";
 import BreadcrumbNav from "@/components/layout/BreadcrumbNav";
 import SelectedCadetTable from "@/components/cadet_table/SelectedCadetTable";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
-import { PageHeader } from "@/components/layout/PageHeader";
 
 
 // Sample user data
 const cadets = ["Ravi Kumar", "Arjun Singh", "Vikram Roy"];
 
 export default function DossierInspSheet() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
+    const [dossierFilling, setDossierFilling] = useState(false);
     const selectedCadet = useSelector((state: RootState) => state.cadet.selectedCadet);
-    const navigate = useNavigate();
+
 
     const handleLogout = () => {
-        navigate("/login");
         console.log("Logout clicked");
     };
 
@@ -44,25 +48,58 @@ export default function DossierInspSheet() {
                 <div className="flex-1 flex flex-col">
                     {/* Header */}
                     <header className="h-16 border-b border-border bg-card/50 backdrop-blur sticky top-0 z-50">
-                        {/* Header */}
-                        <PageHeader
-                            title="Dossier Insp Sheet"
-                            description="Maintain and review cadet dossiers, record inspection notes, and track progress for evaluation and documentation."
-                            onLogout={handleLogout}
-                        />
+                        <div className="flex items-center justify-between px-4 h-full">
+                            <div className="flex items-center gap-4">
+                                <SidebarTrigger className="h-8 w-8" />
+                                <div>
+                                    <h1 className="text-lg font-semibold text-primary">Dossier Insp Sheet</h1>
+                                    <p className="text-sm text-muted-foreground">
+                                        Maintain and review cadet dossiers, record inspection notes, and track progress for evaluation and documentation.
+                                    </p>
+                                </div>
+
+
+                            </div>
+
+                            <div className="flex items-center gap-4">
+
+
+                                {/* User Menu */}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                            <Avatar className="h-8 w-8">
+                                                <AvatarFallback className="bg-primary text-primary-foreground">PC</AvatarFallback>
+                                            </Avatar>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-56">
+                                        <div className="flex items-center justify-start gap-2 p-2">
+                                            <div className="flex flex-col space-y-1 leading-none">
+                                                <p className="font-medium">Platoon Commander</p>
+                                                <p className="w-[200px] truncate text-sm text-muted-foreground">
+                                                    platoon.cmd@mceme.gov.in
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <DropdownMenuItem>
+                                            <User className="mr-2 h-4 w-4" />
+                                            <span>Profile Settings</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={handleLogout}>
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            <span>Logout</span>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                        </div>
                     </header>
 
                     {/* Main Content */}
                     <main className="flex-1 p-6">
                         {/* Breadcrumb */}
-                        <BreadcrumbNav
-                            paths={[
-                                { label: "Dashboard", href: "/dashboard" },
-                                { label: "Dossier", href: "/dashboard/milmgmt" },
-                                { label: "Dossier Insp" }
-                            ]}
-                        />
-
+                        <BreadcrumbNav currentPage="Dossier Insp" />
 
                         {/* welcome section */}
                         {/* <div className="mb-8">
@@ -71,13 +108,10 @@ export default function DossierInspSheet() {
                                 Record, maintain, and review cadet dossiers to ensure accurate documentation of performance, conduct, and progress during training and service.
                             </p>
                         </div> */}
-                       {/* Selected Cadet Section */}
-                        <div className="hidden md:flex sticky top-16 z-40">
-                            {/* Sticky Top Section */}
-                            {selectedCadet && (
-                                <SelectedCadetTable selectedCadet={selectedCadet} />
-                            )}
-                        </div>
+                        {/* Show selected cadet name */}
+                        {selectedCadet && (
+                            <SelectedCadetTable selectedCadet={selectedCadet} />
+                        )}
 
                         {/* Tabs */}
                         <Tabs defaultValue="dossier-insp" className="space-y-6">
@@ -88,7 +122,7 @@ export default function DossierInspSheet() {
                                 </TabsTrigger>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <TabsTrigger value="dossier-insp" className="flex items-center gap-2 border border-transparent hover:!border-blue-700">
+                                        <TabsTrigger value="dossier-insp" className="flex items-center gap-2">
                                             <Shield className="h-4 w-4" />
                                             Mil-Trg
                                             <ChevronDown className="h-4 w-4 text-muted-foreground" />
